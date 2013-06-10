@@ -1,0 +1,1998 @@
+
+printer.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000aac  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000056  00800060  00000aac  00000b40  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000033f  008000b6  008000b6  00000b96  2**0
+                  ALLOC
+  3 .stab         00000abc  00000000  00000000  00000b98  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000001a8  00000000  00000000  00001654  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_aranges 000000a0  00000000  00000000  00001800  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000121d  00000000  00000000  000018a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000476  00000000  00000000  00002abd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000639  00000000  00000000  00002f33  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000027c  00000000  00000000  0000356c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000003c3  00000000  00000000  000037e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000952  00000000  00000000  00003bab  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000028  00000000  00000000  000044fd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 ac 02 	jmp	0x558	; 0x558 <__vector_11>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 1e 01 	jmp	0x23c	; 0x23c <__vector_13>
+  38:	0c 94 4c 01 	jmp	0x298	; 0x298 <__vector_14>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec ea       	ldi	r30, 0xAC	; 172
+  68:	fa e0       	ldi	r31, 0x0A	; 10
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a6 3b       	cpi	r26, 0xB6	; 182
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	13 e0       	ldi	r17, 0x03	; 3
+  78:	a6 eb       	ldi	r26, 0xB6	; 182
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a5 3f       	cpi	r26, 0xF5	; 245
+  82:	b1 07       	cpc	r27, r17
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 cb 03 	call	0x796	; 0x796 <main>
+  8a:	0c 94 54 05 	jmp	0xaa8	; 0xaa8 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <lq_add_line>:
+volatile uint8_t line_queue_tail = 0;
+volatile uint8_t line_queue_count = 0;
+
+
+void lq_add_line( int16_t _x0, int16_t _y0, int16_t _x1, int16_t _y1 )
+{
+  92:	1f 93       	push	r17
+  94:	cf 93       	push	r28
+  96:	df 93       	push	r29
+  98:	fc 01       	movw	r30, r24
+  9a:	d9 01       	movw	r26, r18
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+  9c:	1f b7       	in	r17, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+  9e:	f8 94       	cli
+	{
+		if( line_queue_count < LQ_SIZE )
+  a0:	80 91 b7 00 	lds	r24, 0x00B7
+  a4:	80 31       	cpi	r24, 0x10	; 16
+  a6:	08 f0       	brcs	.+2      	; 0xaa <lq_add_line+0x18>
+  a8:	48 c0       	rjmp	.+144    	; 0x13a <lq_add_line+0xa8>
+		{
+			line_queue[ line_queue_tail ].x0 = _x0;
+  aa:	80 91 b8 00 	lds	r24, 0x00B8
+  ae:	90 e0       	ldi	r25, 0x00	; 0
+  b0:	25 e7       	ldi	r18, 0x75	; 117
+  b2:	33 e0       	ldi	r19, 0x03	; 3
+  b4:	88 0f       	add	r24, r24
+  b6:	99 1f       	adc	r25, r25
+  b8:	88 0f       	add	r24, r24
+  ba:	99 1f       	adc	r25, r25
+  bc:	88 0f       	add	r24, r24
+  be:	99 1f       	adc	r25, r25
+  c0:	82 0f       	add	r24, r18
+  c2:	93 1f       	adc	r25, r19
+  c4:	ec 01       	movw	r28, r24
+  c6:	f9 83       	std	Y+1, r31	; 0x01
+  c8:	e8 83       	st	Y, r30
+			line_queue[ line_queue_tail ].y0 = _y0;
+  ca:	e0 91 b8 00 	lds	r30, 0x00B8
+  ce:	f0 e0       	ldi	r31, 0x00	; 0
+  d0:	ee 0f       	add	r30, r30
+  d2:	ff 1f       	adc	r31, r31
+  d4:	ee 0f       	add	r30, r30
+  d6:	ff 1f       	adc	r31, r31
+  d8:	ee 0f       	add	r30, r30
+  da:	ff 1f       	adc	r31, r31
+  dc:	e2 0f       	add	r30, r18
+  de:	f3 1f       	adc	r31, r19
+  e0:	73 83       	std	Z+3, r23	; 0x03
+  e2:	62 83       	std	Z+2, r22	; 0x02
+			line_queue[ line_queue_tail ].x1 = _x1;
+  e4:	e0 91 b8 00 	lds	r30, 0x00B8
+  e8:	f0 e0       	ldi	r31, 0x00	; 0
+  ea:	ee 0f       	add	r30, r30
+  ec:	ff 1f       	adc	r31, r31
+  ee:	ee 0f       	add	r30, r30
+  f0:	ff 1f       	adc	r31, r31
+  f2:	ee 0f       	add	r30, r30
+  f4:	ff 1f       	adc	r31, r31
+  f6:	e2 0f       	add	r30, r18
+  f8:	f3 1f       	adc	r31, r19
+  fa:	55 83       	std	Z+5, r21	; 0x05
+  fc:	44 83       	std	Z+4, r20	; 0x04
+			line_queue[ line_queue_tail ].y1 = _y1;
+  fe:	80 91 b8 00 	lds	r24, 0x00B8
+ 102:	90 e0       	ldi	r25, 0x00	; 0
+ 104:	88 0f       	add	r24, r24
+ 106:	99 1f       	adc	r25, r25
+ 108:	88 0f       	add	r24, r24
+ 10a:	99 1f       	adc	r25, r25
+ 10c:	88 0f       	add	r24, r24
+ 10e:	99 1f       	adc	r25, r25
+ 110:	28 0f       	add	r18, r24
+ 112:	39 1f       	adc	r19, r25
+ 114:	f9 01       	movw	r30, r18
+ 116:	b7 83       	std	Z+7, r27	; 0x07
+ 118:	a6 83       	std	Z+6, r26	; 0x06
+			
+			line_queue_tail++;
+ 11a:	80 91 b8 00 	lds	r24, 0x00B8
+ 11e:	8f 5f       	subi	r24, 0xFF	; 255
+ 120:	80 93 b8 00 	sts	0x00B8, r24
+			
+			line_queue_count++;
+ 124:	80 91 b7 00 	lds	r24, 0x00B7
+ 128:	8f 5f       	subi	r24, 0xFF	; 255
+ 12a:	80 93 b7 00 	sts	0x00B7, r24
+			
+			if( line_queue_tail == LQ_SIZE )
+ 12e:	80 91 b8 00 	lds	r24, 0x00B8
+ 132:	80 31       	cpi	r24, 0x10	; 16
+ 134:	11 f4       	brne	.+4      	; 0x13a <lq_add_line+0xa8>
+			{
+				line_queue_tail = 0;
+ 136:	10 92 b8 00 	sts	0x00B8, r1
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 13a:	1f bf       	out	0x3f, r17	; 63
+			}
+		}	
+	}			
+}
+ 13c:	df 91       	pop	r29
+ 13e:	cf 91       	pop	r28
+ 140:	1f 91       	pop	r17
+ 142:	08 95       	ret
+
+00000144 <lq_get_line>:
+
+line_t * lq_get_line( )
+{
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 144:	2f b7       	in	r18, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 146:	f8 94       	cli
+	{
+		if( line_queue_count == 0 )
+ 148:	80 91 b7 00 	lds	r24, 0x00B7
+ 14c:	88 23       	and	r24, r24
+ 14e:	e1 f0       	breq	.+56     	; 0x188 <lq_get_line+0x44>
+		return 0;
+		
+		uint8_t index = line_queue_head;
+ 150:	80 91 b9 00 	lds	r24, 0x00B9
+		
+		line_queue_head++;
+ 154:	90 91 b9 00 	lds	r25, 0x00B9
+ 158:	9f 5f       	subi	r25, 0xFF	; 255
+ 15a:	90 93 b9 00 	sts	0x00B9, r25
+		
+		line_queue_count--;
+ 15e:	90 91 b7 00 	lds	r25, 0x00B7
+ 162:	91 50       	subi	r25, 0x01	; 1
+ 164:	90 93 b7 00 	sts	0x00B7, r25
+		
+		if( line_queue_head == LQ_SIZE )
+ 168:	90 91 b9 00 	lds	r25, 0x00B9
+ 16c:	90 31       	cpi	r25, 0x10	; 16
+ 16e:	11 f4       	brne	.+4      	; 0x174 <lq_get_line+0x30>
+		{
+			line_queue_head = 0;
+ 170:	10 92 b9 00 	sts	0x00B9, r1
+		}
+		
+		return &line_queue [ index ];
+ 174:	90 e0       	ldi	r25, 0x00	; 0
+ 176:	88 0f       	add	r24, r24
+ 178:	99 1f       	adc	r25, r25
+ 17a:	88 0f       	add	r24, r24
+ 17c:	99 1f       	adc	r25, r25
+ 17e:	88 0f       	add	r24, r24
+ 180:	99 1f       	adc	r25, r25
+ 182:	8b 58       	subi	r24, 0x8B	; 139
+ 184:	9c 4f       	sbci	r25, 0xFC	; 252
+ 186:	02 c0       	rjmp	.+4      	; 0x18c <lq_get_line+0x48>
+line_t * lq_get_line( )
+{
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+	{
+		if( line_queue_count == 0 )
+		return 0;
+ 188:	80 e0       	ldi	r24, 0x00	; 0
+ 18a:	90 e0       	ldi	r25, 0x00	; 0
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 18c:	2f bf       	out	0x3f, r18	; 63
+			line_queue_head = 0;
+		}
+		
+		return &line_queue [ index ];
+	}		
+}
+ 18e:	08 95       	ret
+
+00000190 <USARTInitialize>:
+
+void USARTInitialize()
+{
+	UCSRA = 0;
+ 190:	1b b8       	out	0x0b, r1	; 11
+	
+	UCSRB |= ( 1 << RXEN )  | ( 1 << TXEN ) | ( 1 << RXCIE );
+ 192:	8a b1       	in	r24, 0x0a	; 10
+ 194:	88 69       	ori	r24, 0x98	; 152
+ 196:	8a b9       	out	0x0a, r24	; 10
+
+	UCSRC |= ( 1 << URSEL ) | ( 1 << UCSZ0 ) | ( 1 << UCSZ1 );
+ 198:	80 b5       	in	r24, 0x20	; 32
+ 19a:	86 68       	ori	r24, 0x86	; 134
+ 19c:	80 bd       	out	0x20, r24	; 32
+	
+	UBRRH = ( BAUD_PRESCALE >> 8);
+ 19e:	10 bc       	out	0x20, r1	; 32
+	UBRRL =   BAUD_PRESCALE ;
+ 1a0:	83 e3       	ldi	r24, 0x33	; 51
+ 1a2:	89 b9       	out	0x09, r24	; 9
+	
+	receiveTail = 0;
+ 1a4:	10 92 dc 00 	sts	0x00DC, r1
+	receiveHead = 0;
+ 1a8:	10 92 db 00 	sts	0x00DB, r1
+	receiveSize = 0;
+ 1ac:	10 92 da 00 	sts	0x00DA, r1
+
+	transmitTail = 0;
+ 1b0:	10 92 d9 00 	sts	0x00D9, r1
+	transmitHead = 0;
+ 1b4:	10 92 d8 00 	sts	0x00D8, r1
+	transmitSize = 0;
+ 1b8:	10 92 d7 00 	sts	0x00D7, r1
+}
+ 1bc:	08 95       	ret
+
+000001be <serial_get>:
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 1be:	f8 94       	cli
+{
+	ATOMIC_BLOCK( ATOMIC_FORCEON )
+	{
+		uint8_t data = 0;
+		
+		if( receiveSize > 0 )
+ 1c0:	80 91 da 00 	lds	r24, 0x00DA
+ 1c4:	88 23       	and	r24, r24
+ 1c6:	c1 f0       	breq	.+48     	; 0x1f8 <serial_get+0x3a>
+		{
+			data = receiveBuffer[ receiveHead ];
+ 1c8:	80 91 db 00 	lds	r24, 0x00DB
+ 1cc:	ec e5       	ldi	r30, 0x5C	; 92
+ 1ce:	f2 e0       	ldi	r31, 0x02	; 2
+ 1d0:	e8 0f       	add	r30, r24
+ 1d2:	f1 1d       	adc	r31, r1
+ 1d4:	80 81       	ld	r24, Z
+			
+			receiveHead++;
+ 1d6:	90 91 db 00 	lds	r25, 0x00DB
+ 1da:	9f 5f       	subi	r25, 0xFF	; 255
+ 1dc:	90 93 db 00 	sts	0x00DB, r25
+			
+			if( receiveHead >= RECEIVE_BUFFER_SIZE )
+ 1e0:	90 91 db 00 	lds	r25, 0x00DB
+ 1e4:	9f 3f       	cpi	r25, 0xFF	; 255
+ 1e6:	11 f4       	brne	.+4      	; 0x1ec <serial_get+0x2e>
+				receiveHead = 0;
+ 1e8:	10 92 db 00 	sts	0x00DB, r1
+			
+			receiveSize--;
+ 1ec:	90 91 da 00 	lds	r25, 0x00DA
+ 1f0:	91 50       	subi	r25, 0x01	; 1
+ 1f2:	90 93 da 00 	sts	0x00DA, r25
+ 1f6:	01 c0       	rjmp	.+2      	; 0x1fa <serial_get+0x3c>
+// Получение принятых данных из буфера
+uint8_t serial_get( )
+{
+	ATOMIC_BLOCK( ATOMIC_FORCEON )
+	{
+		uint8_t data = 0;
+ 1f8:	80 e0       	ldi	r24, 0x00	; 0
+    return 1;
+}
+
+static __inline__ void __iSeiParam(const uint8_t *__s)
+{
+    sei();
+ 1fa:	78 94       	sei
+			receiveSize--;
+		}
+		
+		return data;
+	}
+}
+ 1fc:	08 95       	ret
+
+000001fe <serial_send>:
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 1fe:	f8 94       	cli
+// Отправка данных
+void serial_send( uint8_t data )
+{
+	ATOMIC_BLOCK( ATOMIC_FORCEON )
+	{
+		if( transmitSize < TRANSMIT_BUFFER_SIZE )
+ 200:	90 91 d7 00 	lds	r25, 0x00D7
+ 204:	99 23       	and	r25, r25
+ 206:	c4 f0       	brlt	.+48     	; 0x238 <serial_send+0x3a>
+		{
+			transmitBuffer[ transmitTail ] = data;
+ 208:	90 91 d9 00 	lds	r25, 0x00D9
+ 20c:	ec ed       	ldi	r30, 0xDC	; 220
+ 20e:	f1 e0       	ldi	r31, 0x01	; 1
+ 210:	e9 0f       	add	r30, r25
+ 212:	f1 1d       	adc	r31, r1
+ 214:	80 83       	st	Z, r24
+			
+			transmitTail++;
+ 216:	80 91 d9 00 	lds	r24, 0x00D9
+ 21a:	8f 5f       	subi	r24, 0xFF	; 255
+ 21c:	80 93 d9 00 	sts	0x00D9, r24
+			
+			if( transmitTail == TRANSMIT_BUFFER_SIZE )
+ 220:	80 91 d9 00 	lds	r24, 0x00D9
+ 224:	80 38       	cpi	r24, 0x80	; 128
+ 226:	11 f4       	brne	.+4      	; 0x22c <serial_send+0x2e>
+				transmitTail = 0;
+ 228:	10 92 d9 00 	sts	0x00D9, r1
+			
+			transmitSize++;
+ 22c:	80 91 d7 00 	lds	r24, 0x00D7
+ 230:	8f 5f       	subi	r24, 0xFF	; 255
+ 232:	80 93 d7 00 	sts	0x00D7, r24
+			
+			UCSRB |= ( 1 << UDRIE );
+ 236:	55 9a       	sbi	0x0a, 5	; 10
+    return 1;
+}
+
+static __inline__ void __iSeiParam(const uint8_t *__s)
+{
+    sei();
+ 238:	78 94       	sei
+		}
+	}
+}
+ 23a:	08 95       	ret
+
+0000023c <__vector_13>:
+
+// Получение данных и запись их в буфер
+ISR( USART__RXC_vect )
+{
+ 23c:	1f 92       	push	r1
+ 23e:	0f 92       	push	r0
+ 240:	0f b6       	in	r0, 0x3f	; 63
+ 242:	0f 92       	push	r0
+ 244:	11 24       	eor	r1, r1
+ 246:	8f 93       	push	r24
+ 248:	9f 93       	push	r25
+ 24a:	ef 93       	push	r30
+ 24c:	ff 93       	push	r31
+	if( receiveSize < RECEIVE_BUFFER_SIZE )
+ 24e:	80 91 da 00 	lds	r24, 0x00DA
+ 252:	8f 3f       	cpi	r24, 0xFF	; 255
+ 254:	c1 f0       	breq	.+48     	; 0x286 <__vector_13+0x4a>
+	{
+		receiveBuffer[ receiveTail ] = UDR;
+ 256:	90 91 dc 00 	lds	r25, 0x00DC
+ 25a:	8c b1       	in	r24, 0x0c	; 12
+ 25c:	ec e5       	ldi	r30, 0x5C	; 92
+ 25e:	f2 e0       	ldi	r31, 0x02	; 2
+ 260:	e9 0f       	add	r30, r25
+ 262:	f1 1d       	adc	r31, r1
+ 264:	80 83       	st	Z, r24
+
+		receiveTail++;
+ 266:	80 91 dc 00 	lds	r24, 0x00DC
+ 26a:	8f 5f       	subi	r24, 0xFF	; 255
+ 26c:	80 93 dc 00 	sts	0x00DC, r24
+		
+		if( receiveTail == RECEIVE_BUFFER_SIZE )
+ 270:	80 91 dc 00 	lds	r24, 0x00DC
+ 274:	8f 3f       	cpi	r24, 0xFF	; 255
+ 276:	11 f4       	brne	.+4      	; 0x27c <__vector_13+0x40>
+		receiveTail = 0;
+ 278:	10 92 dc 00 	sts	0x00DC, r1
+		
+		receiveSize++;
+ 27c:	80 91 da 00 	lds	r24, 0x00DA
+ 280:	8f 5f       	subi	r24, 0xFF	; 255
+ 282:	80 93 da 00 	sts	0x00DA, r24
+	}
+}
+ 286:	ff 91       	pop	r31
+ 288:	ef 91       	pop	r30
+ 28a:	9f 91       	pop	r25
+ 28c:	8f 91       	pop	r24
+ 28e:	0f 90       	pop	r0
+ 290:	0f be       	out	0x3f, r0	; 63
+ 292:	0f 90       	pop	r0
+ 294:	1f 90       	pop	r1
+ 296:	18 95       	reti
+
+00000298 <__vector_14>:
+
+// Передача данных из буфера по прерыванию
+ISR( USART__UDRE_vect )
+{
+ 298:	1f 92       	push	r1
+ 29a:	0f 92       	push	r0
+ 29c:	0f b6       	in	r0, 0x3f	; 63
+ 29e:	0f 92       	push	r0
+ 2a0:	11 24       	eor	r1, r1
+ 2a2:	8f 93       	push	r24
+ 2a4:	ef 93       	push	r30
+ 2a6:	ff 93       	push	r31
+	if( transmitSize > 0 )
+ 2a8:	80 91 d7 00 	lds	r24, 0x00D7
+ 2ac:	88 23       	and	r24, r24
+ 2ae:	09 f1       	breq	.+66     	; 0x2f2 <__vector_14+0x5a>
+	{
+		if( transmitSize > 0 )
+ 2b0:	80 91 d7 00 	lds	r24, 0x00D7
+ 2b4:	88 23       	and	r24, r24
+ 2b6:	e9 f0       	breq	.+58     	; 0x2f2 <__vector_14+0x5a>
+		{
+			UDR = transmitBuffer[ transmitHead ];
+ 2b8:	80 91 d8 00 	lds	r24, 0x00D8
+ 2bc:	ec ed       	ldi	r30, 0xDC	; 220
+ 2be:	f1 e0       	ldi	r31, 0x01	; 1
+ 2c0:	e8 0f       	add	r30, r24
+ 2c2:	f1 1d       	adc	r31, r1
+ 2c4:	80 81       	ld	r24, Z
+ 2c6:	8c b9       	out	0x0c, r24	; 12
+			
+			transmitHead++;
+ 2c8:	80 91 d8 00 	lds	r24, 0x00D8
+ 2cc:	8f 5f       	subi	r24, 0xFF	; 255
+ 2ce:	80 93 d8 00 	sts	0x00D8, r24
+			
+			if( transmitHead == TRANSMIT_BUFFER_SIZE )
+ 2d2:	80 91 d8 00 	lds	r24, 0x00D8
+ 2d6:	80 38       	cpi	r24, 0x80	; 128
+ 2d8:	11 f4       	brne	.+4      	; 0x2de <__vector_14+0x46>
+			transmitHead = 0;
+ 2da:	10 92 d8 00 	sts	0x00D8, r1
+			
+			transmitSize--;
+ 2de:	80 91 d7 00 	lds	r24, 0x00D7
+ 2e2:	81 50       	subi	r24, 0x01	; 1
+ 2e4:	80 93 d7 00 	sts	0x00D7, r24
+			
+			if( transmitSize <= 0 )
+ 2e8:	80 91 d7 00 	lds	r24, 0x00D7
+ 2ec:	88 23       	and	r24, r24
+ 2ee:	09 f4       	brne	.+2      	; 0x2f2 <__vector_14+0x5a>
+				UCSRB &= ~( 1 << UDRIE );
+ 2f0:	55 98       	cbi	0x0a, 5	; 10
+		}
+	}
+}
+ 2f2:	ff 91       	pop	r31
+ 2f4:	ef 91       	pop	r30
+ 2f6:	8f 91       	pop	r24
+ 2f8:	0f 90       	pop	r0
+ 2fa:	0f be       	out	0x3f, r0	; 63
+ 2fc:	0f 90       	pop	r0
+ 2fe:	1f 90       	pop	r1
+ 300:	18 95       	reti
+
+00000302 <stepper_init>:
+	
+void stepper_init( stepper_t * stepper, volatile uint8_t * out_port, uint8_t flags )
+{
+ 302:	fc 01       	movw	r30, r24
+	stepper->flags = flags;
+ 304:	40 83       	st	Z, r20
+	stepper->out_port = out_port;
+ 306:	77 83       	std	Z+7, r23	; 0x07
+ 308:	66 83       	std	Z+6, r22	; 0x06
+	stepper->stepsDone = 0;
+ 30a:	13 82       	std	Z+3, r1	; 0x03
+ 30c:	12 82       	std	Z+2, r1	; 0x02
+	stepper->stepsToDo = 0;
+ 30e:	15 82       	std	Z+5, r1	; 0x05
+ 310:	14 82       	std	Z+4, r1	; 0x04
+	stepper->counter = 0;
+ 312:	11 82       	std	Z+1, r1	; 0x01
+	
+	if( stepper->flags & SF_USE_HIGH_4_BITS )
+ 314:	40 ff       	sbrs	r20, 0
+ 316:	07 c0       	rjmp	.+14     	; 0x326 <stepper_init+0x24>
+		(*stepper->out_port) = g_dir_bits[ 0 ][ 0 ] << 4;
+ 318:	80 91 ae 00 	lds	r24, 0x00AE
+ 31c:	82 95       	swap	r24
+ 31e:	80 7f       	andi	r24, 0xF0	; 240
+ 320:	fb 01       	movw	r30, r22
+ 322:	80 83       	st	Z, r24
+ 324:	08 95       	ret
+	else 
+		(*stepper->out_port) = g_dir_bits[ 0 ][ 0 ];
+ 326:	80 91 ae 00 	lds	r24, 0x00AE
+ 32a:	fb 01       	movw	r30, r22
+ 32c:	80 83       	st	Z, r24
+ 32e:	08 95       	ret
+
+00000330 <stepper_do_steps>:
+}
+
+void stepper_do_steps( stepper_t * stepper, uint16_t stepsToDo )
+{
+ 330:	fc 01       	movw	r30, r24
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 332:	8f b7       	in	r24, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 334:	f8 94       	cli
+	{
+		stepper->stepsDone = 0;
+ 336:	13 82       	std	Z+3, r1	; 0x03
+ 338:	12 82       	std	Z+2, r1	; 0x02
+		stepper->stepsToDo = stepsToDo;
+ 33a:	75 83       	std	Z+5, r23	; 0x05
+ 33c:	64 83       	std	Z+4, r22	; 0x04
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 33e:	8f bf       	out	0x3f, r24	; 63
+	}
+}
+ 340:	08 95       	ret
+
+00000342 <stepper_add_steps_to_do>:
+
+void stepper_add_steps_to_do( stepper_t * stepper, uint16_t stepsToDo )
+{
+ 342:	fc 01       	movw	r30, r24
+ 344:	cb 01       	movw	r24, r22
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 346:	2f b7       	in	r18, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 348:	f8 94       	cli
+	{
+		stepper->stepsToDo += stepsToDo;
+ 34a:	64 81       	ldd	r22, Z+4	; 0x04
+ 34c:	75 81       	ldd	r23, Z+5	; 0x05
+ 34e:	68 0f       	add	r22, r24
+ 350:	79 1f       	adc	r23, r25
+ 352:	75 83       	std	Z+5, r23	; 0x05
+ 354:	64 83       	std	Z+4, r22	; 0x04
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 356:	2f bf       	out	0x3f, r18	; 63
+	}
+}
+ 358:	08 95       	ret
+
+0000035a <stepper_set_direction>:
+
+void stepper_set_direction( stepper_t * stepper, int8_t dir )
+{
+ 35a:	fc 01       	movw	r30, r24
+	if( dir < 0 )
+ 35c:	66 23       	and	r22, r22
+ 35e:	24 f4       	brge	.+8      	; 0x368 <stepper_set_direction+0xe>
+		stepper->flags &= ~SF_CW_DIR;
+ 360:	80 81       	ld	r24, Z
+ 362:	8d 7f       	andi	r24, 0xFD	; 253
+ 364:	80 83       	st	Z, r24
+ 366:	08 95       	ret
+	else
+		stepper->flags |= SF_CW_DIR;
+ 368:	80 81       	ld	r24, Z
+ 36a:	82 60       	ori	r24, 0x02	; 2
+ 36c:	80 83       	st	Z, r24
+ 36e:	08 95       	ret
+
+00000370 <line>:
+	timer++;
+}
+
+//
+void line( int16_t _x0, int16_t _y0, int16_t _x1, int16_t _y1 )
+{
+ 370:	ef 92       	push	r14
+ 372:	ff 92       	push	r15
+ 374:	0f 93       	push	r16
+ 376:	1f 93       	push	r17
+ 378:	cf 93       	push	r28
+ 37a:	7c 01       	movw	r14, r24
+ 37c:	db 01       	movw	r26, r22
+ 37e:	f9 01       	movw	r30, r18
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 380:	cf b7       	in	r28, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 382:	f8 94       	cli
+	{
+		x0 = _x0 * stepper_x_mult;
+ 384:	80 91 ad 00 	lds	r24, 0x00AD
+ 388:	99 27       	eor	r25, r25
+ 38a:	87 fd       	sbrc	r24, 7
+ 38c:	90 95       	com	r25
+ 38e:	8e 9d       	mul	r24, r14
+ 390:	80 01       	movw	r16, r0
+ 392:	8f 9d       	mul	r24, r15
+ 394:	10 0d       	add	r17, r0
+ 396:	9e 9d       	mul	r25, r14
+ 398:	10 0d       	add	r17, r0
+ 39a:	11 24       	eor	r1, r1
+ 39c:	10 93 d5 00 	sts	0x00D5, r17
+ 3a0:	00 93 d4 00 	sts	0x00D4, r16
+		y0 = _y0;
+ 3a4:	70 93 d3 00 	sts	0x00D3, r23
+ 3a8:	60 93 d2 00 	sts	0x00D2, r22
+		x1 = _x1 * stepper_x_mult;
+ 3ac:	84 9f       	mul	r24, r20
+ 3ae:	b0 01       	movw	r22, r0
+ 3b0:	85 9f       	mul	r24, r21
+ 3b2:	70 0d       	add	r23, r0
+ 3b4:	94 9f       	mul	r25, r20
+ 3b6:	70 0d       	add	r23, r0
+ 3b8:	11 24       	eor	r1, r1
+ 3ba:	70 93 d1 00 	sts	0x00D1, r23
+ 3be:	60 93 d0 00 	sts	0x00D0, r22
+		y1 = _y1;
+ 3c2:	30 93 cf 00 	sts	0x00CF, r19
+ 3c6:	20 93 ce 00 	sts	0x00CE, r18
+		
+		dx = abs( x1 - x0 );
+ 3ca:	cb 01       	movw	r24, r22
+ 3cc:	80 1b       	sub	r24, r16
+ 3ce:	91 0b       	sbc	r25, r17
+ 3d0:	1a f4       	brpl	.+6      	; 0x3d8 <line+0x68>
+ 3d2:	90 95       	com	r25
+ 3d4:	81 95       	neg	r24
+ 3d6:	9f 4f       	sbci	r25, 0xFF	; 255
+ 3d8:	ac 01       	movw	r20, r24
+ 3da:	90 93 cd 00 	sts	0x00CD, r25
+ 3de:	80 93 cc 00 	sts	0x00CC, r24
+		dy = abs( y1 - y0 );
+ 3e2:	cf 01       	movw	r24, r30
+ 3e4:	8a 1b       	sub	r24, r26
+ 3e6:	9b 0b       	sbc	r25, r27
+ 3e8:	1a f4       	brpl	.+6      	; 0x3f0 <line+0x80>
+ 3ea:	90 95       	com	r25
+ 3ec:	81 95       	neg	r24
+ 3ee:	9f 4f       	sbci	r25, 0xFF	; 255
+ 3f0:	9c 01       	movw	r18, r24
+ 3f2:	90 93 cb 00 	sts	0x00CB, r25
+ 3f6:	80 93 ca 00 	sts	0x00CA, r24
+		sx = x0 < x1 ? 1 : -1;
+ 3fa:	06 17       	cp	r16, r22
+ 3fc:	17 07       	cpc	r17, r23
+ 3fe:	14 f4       	brge	.+4      	; 0x404 <line+0x94>
+ 400:	61 e0       	ldi	r22, 0x01	; 1
+ 402:	01 c0       	rjmp	.+2      	; 0x406 <line+0x96>
+ 404:	6f ef       	ldi	r22, 0xFF	; 255
+ 406:	60 93 c9 00 	sts	0x00C9, r22
+		sy = y0 < y1 ? 1 : -1;
+ 40a:	ae 17       	cp	r26, r30
+ 40c:	bf 07       	cpc	r27, r31
+ 40e:	14 f4       	brge	.+4      	; 0x414 <line+0xa4>
+ 410:	81 e0       	ldi	r24, 0x01	; 1
+ 412:	01 c0       	rjmp	.+2      	; 0x416 <line+0xa6>
+ 414:	8f ef       	ldi	r24, 0xFF	; 255
+ 416:	80 93 c8 00 	sts	0x00C8, r24
+		
+		err = dx - dy;
+ 41a:	42 1b       	sub	r20, r18
+ 41c:	53 0b       	sbc	r21, r19
+ 41e:	50 93 c7 00 	sts	0x00C7, r21
+ 422:	40 93 c6 00 	sts	0x00C6, r20
+		
+		busy = 0xFF;
+ 426:	8f ef       	ldi	r24, 0xFF	; 255
+ 428:	80 93 d6 00 	sts	0x00D6, r24
+		
+		stepper_set_direction( g_steppers[ X_STEPPER ], sx );
+ 42c:	80 91 ba 00 	lds	r24, 0x00BA
+ 430:	90 91 bb 00 	lds	r25, 0x00BB
+ 434:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+		stepper_set_direction( g_steppers[ Y_STEPPER ], sy );		
+ 438:	80 91 bc 00 	lds	r24, 0x00BC
+ 43c:	90 91 bd 00 	lds	r25, 0x00BD
+ 440:	60 91 c8 00 	lds	r22, 0x00C8
+ 444:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 448:	cf bf       	out	0x3f, r28	; 63
+	}
+}
+ 44a:	cf 91       	pop	r28
+ 44c:	1f 91       	pop	r17
+ 44e:	0f 91       	pop	r16
+ 450:	ff 90       	pop	r15
+ 452:	ef 90       	pop	r14
+ 454:	08 95       	ret
+
+00000456 <stepper_stop>:
+	else
+		stepper->flags |= SF_CW_DIR;
+}
+
+void stepper_stop( stepper_t * stepper )
+{
+ 456:	fc 01       	movw	r30, r24
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 458:	8f b7       	in	r24, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 45a:	f8 94       	cli
+	{
+		if( stepper->flags & SF_USE_HIGH_4_BITS )
+ 45c:	90 81       	ld	r25, Z
+ 45e:	90 ff       	sbrs	r25, 0
+ 460:	06 c0       	rjmp	.+12     	; 0x46e <stepper_stop+0x18>
+			(*stepper->out_port) &= 0x0F;
+ 462:	a6 81       	ldd	r26, Z+6	; 0x06
+ 464:	b7 81       	ldd	r27, Z+7	; 0x07
+ 466:	9c 91       	ld	r25, X
+ 468:	9f 70       	andi	r25, 0x0F	; 15
+ 46a:	9c 93       	st	X, r25
+ 46c:	05 c0       	rjmp	.+10     	; 0x478 <stepper_stop+0x22>
+		else
+			(*stepper->out_port) &= 0xF0;
+ 46e:	a6 81       	ldd	r26, Z+6	; 0x06
+ 470:	b7 81       	ldd	r27, Z+7	; 0x07
+ 472:	9c 91       	ld	r25, X
+ 474:	90 7f       	andi	r25, 0xF0	; 240
+ 476:	9c 93       	st	X, r25
+		
+		stepper->stepsDone = 0;
+ 478:	13 82       	std	Z+3, r1	; 0x03
+ 47a:	12 82       	std	Z+2, r1	; 0x02
+		stepper->stepsToDo = 0;
+ 47c:	15 82       	std	Z+5, r1	; 0x05
+ 47e:	14 82       	std	Z+4, r1	; 0x04
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 480:	8f bf       	out	0x3f, r24	; 63
+	}
+}
+ 482:	08 95       	ret
+
+00000484 <stepper_is_ready>:
+
+uint8_t stepper_is_ready( stepper_t * stepper )
+{
+ 484:	fc 01       	movw	r30, r24
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 486:	9f b7       	in	r25, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 488:	f8 94       	cli
+	{
+		return stepper->stepsDone >= stepper->stepsToDo;
+ 48a:	81 e0       	ldi	r24, 0x01	; 1
+ 48c:	42 81       	ldd	r20, Z+2	; 0x02
+ 48e:	53 81       	ldd	r21, Z+3	; 0x03
+ 490:	24 81       	ldd	r18, Z+4	; 0x04
+ 492:	35 81       	ldd	r19, Z+5	; 0x05
+ 494:	42 17       	cp	r20, r18
+ 496:	53 07       	cpc	r21, r19
+ 498:	08 f4       	brcc	.+2      	; 0x49c <stepper_is_ready+0x18>
+ 49a:	80 e0       	ldi	r24, 0x00	; 0
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 49c:	9f bf       	out	0x3f, r25	; 63
+	}			
+}
+ 49e:	08 95       	ret
+
+000004a0 <stepper_update>:
+
+void stepper_update( stepper_t * stepper )
+{	
+ 4a0:	1f 93       	push	r17
+ 4a2:	cf 93       	push	r28
+ 4a4:	df 93       	push	r29
+ 4a6:	ec 01       	movw	r28, r24
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 4a8:	1f b7       	in	r17, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 4aa:	f8 94       	cli
+	{
+		if( stepper_is_ready( stepper ) )
+ 4ac:	0e 94 42 02 	call	0x484	; 0x484 <stepper_is_ready>
+ 4b0:	88 23       	and	r24, r24
+ 4b2:	29 f0       	breq	.+10     	; 0x4be <stepper_update+0x1e>
+		{
+			stepper_stop( stepper );
+ 4b4:	ce 01       	movw	r24, r28
+ 4b6:	0e 94 2b 02 	call	0x456	; 0x456 <stepper_stop>
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 4ba:	1f bf       	out	0x3f, r17	; 63
+    __asm__ volatile ("" ::: "memory");
+ 4bc:	42 c0       	rjmp	.+132    	; 0x542 <stepper_update+0xa2>
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 4be:	1f bf       	out	0x3f, r17	; 63
+			
+			return;
+		}
+	}
+		
+	uint8_t direction = stepper->flags & SF_CW_DIR ? 0 : 1;
+ 4c0:	88 81       	ld	r24, Y
+ 4c2:	a1 e0       	ldi	r26, 0x01	; 1
+ 4c4:	81 fd       	sbrc	r24, 1
+ 4c6:	a0 e0       	ldi	r26, 0x00	; 0
+	
+	if( stepper->flags & SF_USE_HIGH_4_BITS )
+ 4c8:	80 ff       	sbrs	r24, 0
+ 4ca:	18 c0       	rjmp	.+48     	; 0x4fc <stepper_update+0x5c>
+	{
+		(*stepper->out_port) &= 0x0F;
+ 4cc:	ee 81       	ldd	r30, Y+6	; 0x06
+ 4ce:	ff 81       	ldd	r31, Y+7	; 0x07
+ 4d0:	80 81       	ld	r24, Z
+ 4d2:	8f 70       	andi	r24, 0x0F	; 15
+ 4d4:	80 83       	st	Z, r24
+		(*stepper->out_port) |= ( g_dir_bits[ direction ][ stepper->counter ] << 4 ) ;
+ 4d6:	ee 81       	ldd	r30, Y+6	; 0x06
+ 4d8:	ff 81       	ldd	r31, Y+7	; 0x07
+ 4da:	90 81       	ld	r25, Z
+ 4dc:	b0 e0       	ldi	r27, 0x00	; 0
+ 4de:	89 81       	ldd	r24, Y+1	; 0x01
+ 4e0:	aa 0f       	add	r26, r26
+ 4e2:	bb 1f       	adc	r27, r27
+ 4e4:	aa 0f       	add	r26, r26
+ 4e6:	bb 1f       	adc	r27, r27
+ 4e8:	a8 0f       	add	r26, r24
+ 4ea:	b1 1d       	adc	r27, r1
+ 4ec:	a2 55       	subi	r26, 0x52	; 82
+ 4ee:	bf 4f       	sbci	r27, 0xFF	; 255
+ 4f0:	8c 91       	ld	r24, X
+ 4f2:	82 95       	swap	r24
+ 4f4:	80 7f       	andi	r24, 0xF0	; 240
+ 4f6:	89 2b       	or	r24, r25
+ 4f8:	80 83       	st	Z, r24
+ 4fa:	15 c0       	rjmp	.+42     	; 0x526 <stepper_update+0x86>
+	}		
+	else
+	{
+		(*stepper->out_port) &= 0xF0;
+ 4fc:	ee 81       	ldd	r30, Y+6	; 0x06
+ 4fe:	ff 81       	ldd	r31, Y+7	; 0x07
+ 500:	80 81       	ld	r24, Z
+ 502:	80 7f       	andi	r24, 0xF0	; 240
+ 504:	80 83       	st	Z, r24
+		(*stepper->out_port) |= ( g_dir_bits[ direction ][ stepper->counter ] ) ;	
+ 506:	ee 81       	ldd	r30, Y+6	; 0x06
+ 508:	ff 81       	ldd	r31, Y+7	; 0x07
+ 50a:	80 81       	ld	r24, Z
+ 50c:	b0 e0       	ldi	r27, 0x00	; 0
+ 50e:	99 81       	ldd	r25, Y+1	; 0x01
+ 510:	aa 0f       	add	r26, r26
+ 512:	bb 1f       	adc	r27, r27
+ 514:	aa 0f       	add	r26, r26
+ 516:	bb 1f       	adc	r27, r27
+ 518:	a9 0f       	add	r26, r25
+ 51a:	b1 1d       	adc	r27, r1
+ 51c:	a2 55       	subi	r26, 0x52	; 82
+ 51e:	bf 4f       	sbci	r27, 0xFF	; 255
+ 520:	9c 91       	ld	r25, X
+ 522:	89 2b       	or	r24, r25
+ 524:	80 83       	st	Z, r24
+	}
+			
+	stepper->counter++;
+ 526:	89 81       	ldd	r24, Y+1	; 0x01
+ 528:	8f 5f       	subi	r24, 0xFF	; 255
+ 52a:	89 83       	std	Y+1, r24	; 0x01
+	
+	if( stepper->counter > 3 )
+ 52c:	84 30       	cpi	r24, 0x04	; 4
+ 52e:	48 f0       	brcs	.+18     	; 0x542 <stepper_update+0xa2>
+	{
+		stepper->counter = 0;
+ 530:	19 82       	std	Y+1, r1	; 0x01
+		
+		ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+ 532:	2f b7       	in	r18, 0x3f	; 63
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 534:	f8 94       	cli
+		{	
+			stepper->stepsDone++;
+ 536:	8a 81       	ldd	r24, Y+2	; 0x02
+ 538:	9b 81       	ldd	r25, Y+3	; 0x03
+ 53a:	01 96       	adiw	r24, 0x01	; 1
+ 53c:	9b 83       	std	Y+3, r25	; 0x03
+ 53e:	8a 83       	std	Y+2, r24	; 0x02
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 540:	2f bf       	out	0x3f, r18	; 63
+		}		
+	}		
+}	
+ 542:	df 91       	pop	r29
+ 544:	cf 91       	pop	r28
+ 546:	1f 91       	pop	r17
+ 548:	08 95       	ret
+
+0000054a <init_stepper_control_timer>:
+
+void init_stepper_control_timer() 
+{
+	TIMSK |= ( 1 << TOIE0 );
+ 54a:	89 b7       	in	r24, 0x39	; 57
+ 54c:	81 60       	ori	r24, 0x01	; 1
+ 54e:	89 bf       	out	0x39, r24	; 57
+	TCCR0 |= STEPPER_TIMER_8_PRESCALER;
+ 550:	83 b7       	in	r24, 0x33	; 51
+ 552:	82 60       	ori	r24, 0x02	; 2
+ 554:	83 bf       	out	0x33, r24	; 51
+}
+ 556:	08 95       	ret
+
+00000558 <__vector_11>:
+
+volatile uint8_t timer = 0;
+
+// draw line
+ISR( TIMER0_OVF_vect )
+{	
+ 558:	1f 92       	push	r1
+ 55a:	0f 92       	push	r0
+ 55c:	0f b6       	in	r0, 0x3f	; 63
+ 55e:	0f 92       	push	r0
+ 560:	11 24       	eor	r1, r1
+ 562:	0f 93       	push	r16
+ 564:	1f 93       	push	r17
+ 566:	2f 93       	push	r18
+ 568:	3f 93       	push	r19
+ 56a:	4f 93       	push	r20
+ 56c:	5f 93       	push	r21
+ 56e:	6f 93       	push	r22
+ 570:	7f 93       	push	r23
+ 572:	8f 93       	push	r24
+ 574:	9f 93       	push	r25
+ 576:	af 93       	push	r26
+ 578:	bf 93       	push	r27
+ 57a:	cf 93       	push	r28
+ 57c:	df 93       	push	r29
+ 57e:	ef 93       	push	r30
+ 580:	ff 93       	push	r31
+	if( timer > 14 )
+ 582:	80 91 b6 00 	lds	r24, 0x00B6
+ 586:	8f 30       	cpi	r24, 0x0F	; 15
+ 588:	c0 f1       	brcs	.+112    	; 0x5fa <__vector_11+0xa2>
+	{
+		if( !( x0 != x1 || y0 != y1 ))
+ 58a:	20 91 d4 00 	lds	r18, 0x00D4
+ 58e:	30 91 d5 00 	lds	r19, 0x00D5
+ 592:	80 91 d0 00 	lds	r24, 0x00D0
+ 596:	90 91 d1 00 	lds	r25, 0x00D1
+ 59a:	28 17       	cp	r18, r24
+ 59c:	39 07       	cpc	r19, r25
+ 59e:	e9 f4       	brne	.+58     	; 0x5da <__vector_11+0x82>
+ 5a0:	20 91 d2 00 	lds	r18, 0x00D2
+ 5a4:	30 91 d3 00 	lds	r19, 0x00D3
+ 5a8:	80 91 ce 00 	lds	r24, 0x00CE
+ 5ac:	90 91 cf 00 	lds	r25, 0x00CF
+ 5b0:	28 17       	cp	r18, r24
+ 5b2:	39 07       	cpc	r19, r25
+ 5b4:	91 f4       	brne	.+36     	; 0x5da <__vector_11+0x82>
+		{			
+			line_t * lin = lq_get_line();
+ 5b6:	0e 94 a2 00 	call	0x144	; 0x144 <lq_get_line>
+ 5ba:	fc 01       	movw	r30, r24
+			
+			if( lin )
+ 5bc:	00 97       	sbiw	r24, 0x00	; 0
+ 5be:	59 f0       	breq	.+22     	; 0x5d6 <__vector_11+0x7e>
+			{
+				line( lin->x0, lin->y0, lin->x1, lin->y1 );
+ 5c0:	62 81       	ldd	r22, Z+2	; 0x02
+ 5c2:	73 81       	ldd	r23, Z+3	; 0x03
+ 5c4:	44 81       	ldd	r20, Z+4	; 0x04
+ 5c6:	55 81       	ldd	r21, Z+5	; 0x05
+ 5c8:	26 81       	ldd	r18, Z+6	; 0x06
+ 5ca:	37 81       	ldd	r19, Z+7	; 0x07
+ 5cc:	80 81       	ld	r24, Z
+ 5ce:	91 81       	ldd	r25, Z+1	; 0x01
+ 5d0:	0e 94 b8 01 	call	0x370	; 0x370 <line>
+ 5d4:	02 c0       	rjmp	.+4      	; 0x5da <__vector_11+0x82>
+			}
+			else
+			{
+				busy = 0x00;
+ 5d6:	10 92 d6 00 	sts	0x00D6, r1
+ 5da:	ca eb       	ldi	r28, 0xBA	; 186
+ 5dc:	d0 e0       	ldi	r29, 0x00	; 0
+volatile stepper_t g_z_stepper;
+
+volatile uint8_t timer = 0;
+
+// draw line
+ISR( TIMER0_OVF_vect )
+ 5de:	8e 01       	movw	r16, r28
+ 5e0:	0a 5f       	subi	r16, 0xFA	; 250
+ 5e2:	1f 4f       	sbci	r17, 0xFF	; 255
+			}			
+		}			
+			
+		for( uint8_t i = 0; i < STEPPERS_COUNT; i++ )
+		{
+			if( g_steppers[ i ] )
+ 5e4:	89 91       	ld	r24, Y+
+ 5e6:	99 91       	ld	r25, Y+
+ 5e8:	00 97       	sbiw	r24, 0x00	; 0
+ 5ea:	11 f0       	breq	.+4      	; 0x5f0 <__vector_11+0x98>
+				stepper_update( g_steppers[ i ] );
+ 5ec:	0e 94 50 02 	call	0x4a0	; 0x4a0 <stepper_update>
+			{
+				busy = 0x00;
+			}			
+		}			
+			
+		for( uint8_t i = 0; i < STEPPERS_COUNT; i++ )
+ 5f0:	c0 17       	cp	r28, r16
+ 5f2:	d1 07       	cpc	r29, r17
+ 5f4:	b9 f7       	brne	.-18     	; 0x5e4 <__vector_11+0x8c>
+		{
+			if( g_steppers[ i ] )
+				stepper_update( g_steppers[ i ] );
+		}
+		
+		timer = 0;
+ 5f6:	10 92 b6 00 	sts	0x00B6, r1
+	}		
+	
+	timer++;
+ 5fa:	80 91 b6 00 	lds	r24, 0x00B6
+ 5fe:	8f 5f       	subi	r24, 0xFF	; 255
+ 600:	80 93 b6 00 	sts	0x00B6, r24
+}
+ 604:	ff 91       	pop	r31
+ 606:	ef 91       	pop	r30
+ 608:	df 91       	pop	r29
+ 60a:	cf 91       	pop	r28
+ 60c:	bf 91       	pop	r27
+ 60e:	af 91       	pop	r26
+ 610:	9f 91       	pop	r25
+ 612:	8f 91       	pop	r24
+ 614:	7f 91       	pop	r23
+ 616:	6f 91       	pop	r22
+ 618:	5f 91       	pop	r21
+ 61a:	4f 91       	pop	r20
+ 61c:	3f 91       	pop	r19
+ 61e:	2f 91       	pop	r18
+ 620:	1f 91       	pop	r17
+ 622:	0f 91       	pop	r16
+ 624:	0f 90       	pop	r0
+ 626:	0f be       	out	0x3f, r0	; 63
+ 628:	0f 90       	pop	r0
+ 62a:	1f 90       	pop	r1
+ 62c:	18 95       	reti
+
+0000062e <receive_buffer_get_string>:
+		stepper_set_direction( g_steppers[ Y_STEPPER ], sy );		
+	}
+}
+
+char * receive_buffer_get_string( )
+{
+ 62e:	cf 93       	push	r28
+ 630:	df 93       	push	r29
+ 632:	80 e0       	ldi	r24, 0x00	; 0
+ 634:	90 e0       	ldi	r25, 0x00	; 0
+	char * null_byte = 0;
+ 636:	40 e0       	ldi	r20, 0x00	; 0
+ 638:	50 e0       	ldi	r21, 0x00	; 0
+	 
+	// check - is the buffer contain string? String must contain 'zero byte' at the end
+	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
+	{
+		if( receiveBuffer[ i ] == 0 )
+ 63a:	2c e5       	ldi	r18, 0x5C	; 92
+ 63c:	32 e0       	ldi	r19, 0x02	; 2
+ 63e:	f9 01       	movw	r30, r18
+ 640:	e8 0f       	add	r30, r24
+ 642:	f9 1f       	adc	r31, r25
+ 644:	60 81       	ld	r22, Z
+ 646:	66 23       	and	r22, r22
+ 648:	19 f4       	brne	.+6      	; 0x650 <receive_buffer_get_string+0x22>
+		{		
+			null_byte = &receiveBuffer[ i ];
+ 64a:	ac 01       	movw	r20, r24
+ 64c:	44 5a       	subi	r20, 0xA4	; 164
+ 64e:	5d 4f       	sbci	r21, 0xFD	; 253
+ 650:	01 96       	adiw	r24, 0x01	; 1
+char * receive_buffer_get_string( )
+{
+	char * null_byte = 0;
+	 
+	// check - is the buffer contain string? String must contain 'zero byte' at the end
+	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
+ 652:	8f 3f       	cpi	r24, 0xFF	; 255
+ 654:	91 05       	cpc	r25, r1
+ 656:	99 f7       	brne	.-26     	; 0x63e <receive_buffer_get_string+0x10>
+			null_byte = &receiveBuffer[ i ];
+		}			
+	}	
+	
+	// we've got string?
+	if( !null_byte )	
+ 658:	41 15       	cp	r20, r1
+ 65a:	51 05       	cpc	r21, r1
+ 65c:	19 f4       	brne	.+6      	; 0x664 <receive_buffer_get_string+0x36>
+		return 0;
+ 65e:	80 e0       	ldi	r24, 0x00	; 0
+ 660:	90 e0       	ldi	r25, 0x00	; 0
+ 662:	0f c0       	rjmp	.+30     	; 0x682 <receive_buffer_get_string+0x54>
+ 664:	ed ed       	ldi	r30, 0xDD	; 221
+ 666:	f0 e0       	ldi	r31, 0x00	; 0
+		stepper_set_direction( g_steppers[ X_STEPPER ], sx );
+		stepper_set_direction( g_steppers[ Y_STEPPER ], sy );		
+	}
+}
+
+char * receive_buffer_get_string( )
+ 668:	8c ed       	ldi	r24, 0xDC	; 220
+ 66a:	91 e0       	ldi	r25, 0x01	; 1
+		return 0;
+	
+	// clear command buffer
+	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
+	{
+		commandBuffer[ i ] = 0;
+ 66c:	11 92       	st	Z+, r1
+	// we've got string?
+	if( !null_byte )	
+		return 0;
+	
+	// clear command buffer
+	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
+ 66e:	e8 17       	cp	r30, r24
+ 670:	f9 07       	cpc	r31, r25
+ 672:	e1 f7       	brne	.-8      	; 0x66c <receive_buffer_get_string+0x3e>
+	// copy command from serial to the command buffer
+	uint8_t n = 0;
+	
+	while( 1 )
+	{
+		commandBuffer[ n ] = serial_get( );
+ 674:	cd ed       	ldi	r28, 0xDD	; 221
+ 676:	d0 e0       	ldi	r29, 0x00	; 0
+ 678:	0e 94 df 00 	call	0x1be	; 0x1be <serial_get>
+ 67c:	88 83       	st	Y, r24
+		
+		if( commandBuffer[ n ] == 0 )
+ 67e:	88 23       	and	r24, r24
+ 680:	d9 f7       	brne	.-10     	; 0x678 <receive_buffer_get_string+0x4a>
+			break;
+	}
+}
+ 682:	df 91       	pop	r29
+ 684:	cf 91       	pop	r28
+ 686:	08 95       	ret
+
+00000688 <exec_string>:
+	U	- move up instrument. args - steps
+	D	- move down instrument. args - steps
+*/
+
+void exec_string( char * str )
+{
+ 688:	ef 92       	push	r14
+ 68a:	ff 92       	push	r15
+ 68c:	0f 93       	push	r16
+ 68e:	1f 93       	push	r17
+ 690:	cf 93       	push	r28
+ 692:	df 93       	push	r29
+ 694:	cd b7       	in	r28, 0x3d	; 61
+ 696:	de b7       	in	r29, 0x3e	; 62
+ 698:	28 97       	sbiw	r28, 0x08	; 8
+ 69a:	0f b6       	in	r0, 0x3f	; 63
+ 69c:	f8 94       	cli
+ 69e:	de bf       	out	0x3e, r29	; 62
+ 6a0:	0f be       	out	0x3f, r0	; 63
+ 6a2:	cd bf       	out	0x3d, r28	; 61
+	if( !str )
+ 6a4:	00 97       	sbiw	r24, 0x00	; 0
+ 6a6:	09 f4       	brne	.+2      	; 0x6aa <exec_string+0x22>
+ 6a8:	69 c0       	rjmp	.+210    	; 0x77c <exec_string+0xf4>
+	
+	char command		= 0;
+	const char * delim	= " ";
+	char * token		= 0;
+	uint8_t argNum		= 0;
+	int16_t args[ 4 ]	= { 0 };
+ 6aa:	fe 01       	movw	r30, r28
+ 6ac:	31 96       	adiw	r30, 0x01	; 1
+ 6ae:	28 e0       	ldi	r18, 0x08	; 8
+ 6b0:	df 01       	movw	r26, r30
+ 6b2:	1d 92       	st	X+, r1
+ 6b4:	2a 95       	dec	r18
+ 6b6:	e9 f7       	brne	.-6      	; 0x6b2 <exec_string+0x2a>
+
+	// get first token
+	token = strtok( str, delim );
+ 6b8:	60 e6       	ldi	r22, 0x60	; 96
+ 6ba:	70 e0       	ldi	r23, 0x00	; 0
+ 6bc:	0e 94 20 05 	call	0xa40	; 0xa40 <strtok>
+ 6c0:	e8 2f       	mov	r30, r24
+ 6c2:	f9 2f       	mov	r31, r25
+
+	if( !token )
+ 6c4:	30 97       	sbiw	r30, 0x00	; 0
+ 6c6:	09 f4       	brne	.+2      	; 0x6ca <exec_string+0x42>
+ 6c8:	59 c0       	rjmp	.+178    	; 0x77c <exec_string+0xf4>
+		return;
+
+	// get command literal
+	command = token[ 0 ];
+ 6ca:	00 81       	ld	r16, Z
+	return;
+	
+	char command		= 0;
+	const char * delim	= " ";
+	char * token		= 0;
+	uint8_t argNum		= 0;
+ 6cc:	10 e0       	ldi	r17, 0x00	; 0
+	command = token[ 0 ];
+
+	// get args of command
+	do
+	{
+		token = strtok( 0, delim );
+ 6ce:	0f 2e       	mov	r0, r31
+ 6d0:	f0 e6       	ldi	r31, 0x60	; 96
+ 6d2:	ef 2e       	mov	r14, r31
+ 6d4:	f0 e0       	ldi	r31, 0x00	; 0
+ 6d6:	ff 2e       	mov	r15, r31
+ 6d8:	f0 2d       	mov	r31, r0
+ 6da:	80 e0       	ldi	r24, 0x00	; 0
+ 6dc:	90 e0       	ldi	r25, 0x00	; 0
+ 6de:	b7 01       	movw	r22, r14
+ 6e0:	0e 94 20 05 	call	0xa40	; 0xa40 <strtok>
+ 6e4:	28 2f       	mov	r18, r24
+ 6e6:	39 2f       	mov	r19, r25
+
+		if( token )
+ 6e8:	21 15       	cp	r18, r1
+ 6ea:	31 05       	cpc	r19, r1
+ 6ec:	89 f0       	breq	.+34     	; 0x710 <exec_string+0x88>
+		{
+			args[ argNum++ ] = atoi( token );
+ 6ee:	c9 01       	movw	r24, r18
+ 6f0:	0e 94 02 05 	call	0xa04	; 0xa04 <atoi>
+ 6f4:	e1 2f       	mov	r30, r17
+ 6f6:	f0 e0       	ldi	r31, 0x00	; 0
+ 6f8:	ee 0f       	add	r30, r30
+ 6fa:	ff 1f       	adc	r31, r31
+ 6fc:	21 e0       	ldi	r18, 0x01	; 1
+ 6fe:	30 e0       	ldi	r19, 0x00	; 0
+ 700:	2c 0f       	add	r18, r28
+ 702:	3d 1f       	adc	r19, r29
+ 704:	e2 0f       	add	r30, r18
+ 706:	f3 1f       	adc	r31, r19
+ 708:	91 83       	std	Z+1, r25	; 0x01
+ 70a:	80 83       	st	Z, r24
+ 70c:	1f 5f       	subi	r17, 0xFF	; 255
+ 70e:	e5 cf       	rjmp	.-54     	; 0x6da <exec_string+0x52>
+		}
+	
+	} while( token );
+	
+	// execute command
+	switch( command )
+ 710:	0c 34       	cpi	r16, 0x4C	; 76
+ 712:	29 f0       	breq	.+10     	; 0x71e <exec_string+0x96>
+ 714:	05 35       	cpi	r16, 0x55	; 85
+ 716:	71 f0       	breq	.+28     	; 0x734 <exec_string+0xac>
+ 718:	04 34       	cpi	r16, 0x44	; 68
+ 71a:	81 f5       	brne	.+96     	; 0x77c <exec_string+0xf4>
+ 71c:	0b c0       	rjmp	.+22     	; 0x734 <exec_string+0xac>
+	{
+		// add line to queue
+		case 'L':
+		{
+			lq_add_line( args[ 0 ], args[ 1 ], args[ 2 ], args[ 3 ] );
+ 71e:	6b 81       	ldd	r22, Y+3	; 0x03
+ 720:	7c 81       	ldd	r23, Y+4	; 0x04
+ 722:	4d 81       	ldd	r20, Y+5	; 0x05
+ 724:	5e 81       	ldd	r21, Y+6	; 0x06
+ 726:	2f 81       	ldd	r18, Y+7	; 0x07
+ 728:	38 85       	ldd	r19, Y+8	; 0x08
+ 72a:	89 81       	ldd	r24, Y+1	; 0x01
+ 72c:	9a 81       	ldd	r25, Y+2	; 0x02
+ 72e:	0e 94 49 00 	call	0x92	; 0x92 <lq_add_line>
+			break;	
+ 732:	24 c0       	rjmp	.+72     	; 0x77c <exec_string+0xf4>
+		
+		// up\down intrument
+		case 'U':
+		case 'D':
+		{
+			if( command == 'U' )
+ 734:	05 35       	cpi	r16, 0x55	; 85
+ 736:	41 f4       	brne	.+16     	; 0x748 <exec_string+0xc0>
+			{
+				stepper_set_direction( g_steppers[ Z_STEPPER ],  1 );
+ 738:	80 91 be 00 	lds	r24, 0x00BE
+ 73c:	90 91 bf 00 	lds	r25, 0x00BF
+ 740:	61 e0       	ldi	r22, 0x01	; 1
+ 742:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+ 746:	09 c0       	rjmp	.+18     	; 0x75a <exec_string+0xd2>
+			}				
+			if( command == 'D' )
+ 748:	04 34       	cpi	r16, 0x44	; 68
+ 74a:	39 f4       	brne	.+14     	; 0x75a <exec_string+0xd2>
+			{
+				stepper_set_direction( g_steppers[ Z_STEPPER ], -1 );	
+ 74c:	80 91 be 00 	lds	r24, 0x00BE
+ 750:	90 91 bf 00 	lds	r25, 0x00BF
+ 754:	6f ef       	ldi	r22, 0xFF	; 255
+ 756:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+			}				
+							
+			stepper_do_steps( g_steppers[ Z_STEPPER ], args[ 0 ] );
+ 75a:	69 81       	ldd	r22, Y+1	; 0x01
+ 75c:	7a 81       	ldd	r23, Y+2	; 0x02
+ 75e:	80 91 be 00 	lds	r24, 0x00BE
+ 762:	90 91 bf 00 	lds	r25, 0x00BF
+ 766:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+			
+			while( !stepper_is_ready( g_steppers[ Z_STEPPER ] ) ) // wait until stepper done all steps
+ 76a:	0e eb       	ldi	r16, 0xBE	; 190
+ 76c:	10 e0       	ldi	r17, 0x00	; 0
+ 76e:	d8 01       	movw	r26, r16
+ 770:	8d 91       	ld	r24, X+
+ 772:	9c 91       	ld	r25, X
+ 774:	0e 94 42 02 	call	0x484	; 0x484 <stepper_is_ready>
+ 778:	88 23       	and	r24, r24
+ 77a:	c9 f3       	breq	.-14     	; 0x76e <exec_string+0xe6>
+			}; 
+				
+			break;
+		}					
+	}
+}
+ 77c:	28 96       	adiw	r28, 0x08	; 8
+ 77e:	0f b6       	in	r0, 0x3f	; 63
+ 780:	f8 94       	cli
+ 782:	de bf       	out	0x3e, r29	; 62
+ 784:	0f be       	out	0x3f, r0	; 63
+ 786:	cd bf       	out	0x3d, r28	; 61
+ 788:	df 91       	pop	r29
+ 78a:	cf 91       	pop	r28
+ 78c:	1f 91       	pop	r17
+ 78e:	0f 91       	pop	r16
+ 790:	ff 90       	pop	r15
+ 792:	ef 90       	pop	r14
+ 794:	08 95       	ret
+
+00000796 <main>:
+
+int main(void)
+{
+	DDRA  = 0xFF;
+ 796:	8f ef       	ldi	r24, 0xFF	; 255
+ 798:	8a bb       	out	0x1a, r24	; 26
+	PORTA = 0x00;
+ 79a:	1b ba       	out	0x1b, r1	; 27
+	PORTC = 0x00;
+ 79c:	15 ba       	out	0x15, r1	; 21
+	DDRC  = 0xFF;
+ 79e:	84 bb       	out	0x14, r24	; 20
+	
+	PORTB = 0xFF;
+ 7a0:	88 bb       	out	0x18, r24	; 24
+	DDRB  = 0x00;
+ 7a2:	17 ba       	out	0x17, r1	; 23
+	
+	init_stepper_control_timer();
+ 7a4:	0e 94 a5 02 	call	0x54a	; 0x54a <init_stepper_control_timer>
+	
+	sei();
+ 7a8:	78 94       	sei
+		
+	stepper_init( &g_x_stepper, &PORTA, 0  );	
+ 7aa:	cd e6       	ldi	r28, 0x6D	; 109
+ 7ac:	d3 e0       	ldi	r29, 0x03	; 3
+ 7ae:	ce 01       	movw	r24, r28
+ 7b0:	6b e3       	ldi	r22, 0x3B	; 59
+ 7b2:	70 e0       	ldi	r23, 0x00	; 0
+ 7b4:	40 e0       	ldi	r20, 0x00	; 0
+ 7b6:	0e 94 81 01 	call	0x302	; 0x302 <stepper_init>
+	g_steppers[ X_STEPPER ] = &g_x_stepper;
+ 7ba:	d0 93 bb 00 	sts	0x00BB, r29
+ 7be:	c0 93 ba 00 	sts	0x00BA, r28
+	
+	stepper_init( &g_y_stepper, &PORTA, SF_USE_HIGH_4_BITS );
+ 7c2:	c5 e6       	ldi	r28, 0x65	; 101
+ 7c4:	d3 e0       	ldi	r29, 0x03	; 3
+ 7c6:	ce 01       	movw	r24, r28
+ 7c8:	6b e3       	ldi	r22, 0x3B	; 59
+ 7ca:	70 e0       	ldi	r23, 0x00	; 0
+ 7cc:	41 e0       	ldi	r20, 0x01	; 1
+ 7ce:	0e 94 81 01 	call	0x302	; 0x302 <stepper_init>
+	g_steppers[ Y_STEPPER ] = &g_y_stepper;	
+ 7d2:	d0 93 bd 00 	sts	0x00BD, r29
+ 7d6:	c0 93 bc 00 	sts	0x00BC, r28
+	
+	stepper_init( &g_z_stepper, &PORTC, SF_USE_HIGH_4_BITS );
+ 7da:	cd e5       	ldi	r28, 0x5D	; 93
+ 7dc:	d3 e0       	ldi	r29, 0x03	; 3
+ 7de:	ce 01       	movw	r24, r28
+ 7e0:	65 e3       	ldi	r22, 0x35	; 53
+ 7e2:	70 e0       	ldi	r23, 0x00	; 0
+ 7e4:	41 e0       	ldi	r20, 0x01	; 1
+ 7e6:	0e 94 81 01 	call	0x302	; 0x302 <stepper_init>
+	g_steppers[ Z_STEPPER ] = &g_z_stepper;	
+ 7ea:	d0 93 bf 00 	sts	0x00BF, r29
+ 7ee:	c0 93 be 00 	sts	0x00BE, r28
+
+	uint8_t started = 0x00;
+ 7f2:	dd 24       	eor	r13, r13
+				{
+					err += dx;
+					y0  += sy;
+					g_y += sy;		
+					
+					stepper_do_steps( g_steppers[ Y_STEPPER ], 1 );
+ 7f4:	0c eb       	ldi	r16, 0xBC	; 188
+ 7f6:	10 e0       	ldi	r17, 0x00	; 0
+				{
+					err -= dy;
+					x0  += sx;							
+					g_x += sx;
+							
+					stepper_do_steps( g_steppers[ X_STEPPER ], 1 );
+ 7f8:	ca eb       	ldi	r28, 0xBA	; 186
+ 7fa:	d0 e0       	ldi	r29, 0x00	; 0
+				stepper_set_direction( g_steppers[ Z_STEPPER ], 1 );
+				stepper_do_steps( g_steppers[ Z_STEPPER ], 2 );
+			}
+			if( !( PINB & ( 1 << 3 ) ) )
+			{
+				stepper_set_direction( g_steppers[ Z_STEPPER ], -1 );
+ 7fc:	0f 2e       	mov	r0, r31
+ 7fe:	fe eb       	ldi	r31, 0xBE	; 190
+ 800:	ef 2e       	mov	r14, r31
+ 802:	f0 e0       	ldi	r31, 0x00	; 0
+ 804:	ff 2e       	mov	r15, r31
+ 806:	f0 2d       	mov	r31, r0
+		// keyboard control - only for test		
+	    if( !busy )
+	    {
+		    if( started )
+		    {	
+				strcpy( commandBuffer, "L 0 0 200 300\0L 200 300 400 0\0L 400 0 0 200\0L 0 200 400 200\0L 400 200 0 0\0" );
+ 808:	0f 2e       	mov	r0, r31
+ 80a:	fd ed       	ldi	r31, 0xDD	; 221
+ 80c:	af 2e       	mov	r10, r31
+ 80e:	f0 e0       	ldi	r31, 0x00	; 0
+ 810:	bf 2e       	mov	r11, r31
+ 812:	f0 2d       	mov	r31, r0
+ 814:	0f 2e       	mov	r0, r31
+ 816:	f2 e6       	ldi	r31, 0x62	; 98
+ 818:	8f 2e       	mov	r8, r31
+ 81a:	f0 e0       	ldi	r31, 0x00	; 0
+ 81c:	9f 2e       	mov	r9, r31
+ 81e:	f0 2d       	mov	r31, r0
+ 820:	0f 2e       	mov	r0, r31
+ 822:	fe e0       	ldi	r31, 0x0E	; 14
+ 824:	cf 2e       	mov	r12, r31
+ 826:	f0 2d       	mov	r31, r0
+				lq_add_line( 200, 300, 400,   0 );				
+				lq_add_line( 400,   0,   0, 200 );
+				lq_add_line(   0, 200, 400, 200 );				
+				lq_add_line( 400, 200,   0,   0 );		*/	
+
+				started = 0x00;	
+ 828:	77 24       	eor	r7, r7
+    while( 1 )
+    {
+		// executes commands which been received from serial 
+		//exec_string( receive_buffer_get_string() );
+		
+		if( busy )
+ 82a:	80 91 d6 00 	lds	r24, 0x00D6
+ 82e:	88 23       	and	r24, r24
+ 830:	09 f4       	brne	.+2      	; 0x834 <main+0x9e>
+ 832:	94 c0       	rjmp	.+296    	; 0x95c <__stack+0xfd>
+		{
+			// basic bresenham line algorithm
+			if ( x0 != x1 || y0 != y1 )
+ 834:	60 91 d4 00 	lds	r22, 0x00D4
+ 838:	70 91 d5 00 	lds	r23, 0x00D5
+ 83c:	80 91 d0 00 	lds	r24, 0x00D0
+ 840:	90 91 d1 00 	lds	r25, 0x00D1
+ 844:	68 17       	cp	r22, r24
+ 846:	79 07       	cpc	r23, r25
+ 848:	61 f4       	brne	.+24     	; 0x862 <__stack+0x3>
+ 84a:	80 91 d2 00 	lds	r24, 0x00D2
+ 84e:	90 91 d3 00 	lds	r25, 0x00D3
+ 852:	20 91 ce 00 	lds	r18, 0x00CE
+ 856:	30 91 cf 00 	lds	r19, 0x00CF
+ 85a:	82 17       	cp	r24, r18
+ 85c:	93 07       	cpc	r25, r19
+ 85e:	09 f4       	brne	.+2      	; 0x862 <__stack+0x3>
+ 860:	7d c0       	rjmp	.+250    	; 0x95c <__stack+0xfd>
+			{
+				e2 = err * 2;
+ 862:	80 91 c6 00 	lds	r24, 0x00C6
+ 866:	90 91 c7 00 	lds	r25, 0x00C7
+ 86a:	88 0f       	add	r24, r24
+ 86c:	99 1f       	adc	r25, r25
+ 86e:	90 93 c5 00 	sts	0x00C5, r25
+ 872:	80 93 c4 00 	sts	0x00C4, r24
+					
+				if ( e2 > -dy )
+ 876:	40 91 ca 00 	lds	r20, 0x00CA
+ 87a:	50 91 cb 00 	lds	r21, 0x00CB
+ 87e:	22 27       	eor	r18, r18
+ 880:	33 27       	eor	r19, r19
+ 882:	24 1b       	sub	r18, r20
+ 884:	35 0b       	sbc	r19, r21
+ 886:	28 17       	cp	r18, r24
+ 888:	39 07       	cpc	r19, r25
+ 88a:	64 f5       	brge	.+88     	; 0x8e4 <__stack+0x85>
+				{
+					err -= dy;
+ 88c:	80 91 c6 00 	lds	r24, 0x00C6
+ 890:	90 91 c7 00 	lds	r25, 0x00C7
+ 894:	84 1b       	sub	r24, r20
+ 896:	95 0b       	sbc	r25, r21
+ 898:	90 93 c7 00 	sts	0x00C7, r25
+ 89c:	80 93 c6 00 	sts	0x00C6, r24
+					x0  += sx;							
+ 8a0:	20 91 c9 00 	lds	r18, 0x00C9
+ 8a4:	33 27       	eor	r19, r19
+ 8a6:	27 fd       	sbrc	r18, 7
+ 8a8:	30 95       	com	r19
+ 8aa:	cb 01       	movw	r24, r22
+ 8ac:	82 0f       	add	r24, r18
+ 8ae:	93 1f       	adc	r25, r19
+ 8b0:	90 93 d5 00 	sts	0x00D5, r25
+ 8b4:	80 93 d4 00 	sts	0x00D4, r24
+					g_x += sx;
+ 8b8:	80 91 c2 00 	lds	r24, 0x00C2
+ 8bc:	90 91 c3 00 	lds	r25, 0x00C3
+ 8c0:	82 0f       	add	r24, r18
+ 8c2:	93 1f       	adc	r25, r19
+ 8c4:	90 93 c3 00 	sts	0x00C3, r25
+ 8c8:	80 93 c2 00 	sts	0x00C2, r24
+							
+					stepper_do_steps( g_steppers[ X_STEPPER ], 1 );
+ 8cc:	88 81       	ld	r24, Y
+ 8ce:	99 81       	ldd	r25, Y+1	; 0x01
+ 8d0:	61 e0       	ldi	r22, 0x01	; 1
+ 8d2:	70 e0       	ldi	r23, 0x00	; 0
+ 8d4:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+				
+					while( !stepper_is_ready( g_steppers[ X_STEPPER ] )); // wait until stepper done steps
+ 8d8:	88 81       	ld	r24, Y
+ 8da:	99 81       	ldd	r25, Y+1	; 0x01
+ 8dc:	0e 94 42 02 	call	0x484	; 0x484 <stepper_is_ready>
+ 8e0:	88 23       	and	r24, r24
+ 8e2:	d1 f3       	breq	.-12     	; 0x8d8 <__stack+0x79>
+				}
+					
+				if ( e2 < dx )
+ 8e4:	20 91 cc 00 	lds	r18, 0x00CC
+ 8e8:	30 91 cd 00 	lds	r19, 0x00CD
+ 8ec:	80 91 c4 00 	lds	r24, 0x00C4
+ 8f0:	90 91 c5 00 	lds	r25, 0x00C5
+ 8f4:	82 17       	cp	r24, r18
+ 8f6:	93 07       	cpc	r25, r19
+ 8f8:	8c f5       	brge	.+98     	; 0x95c <__stack+0xfd>
+				{
+					err += dx;
+ 8fa:	80 91 c6 00 	lds	r24, 0x00C6
+ 8fe:	90 91 c7 00 	lds	r25, 0x00C7
+ 902:	82 0f       	add	r24, r18
+ 904:	93 1f       	adc	r25, r19
+ 906:	90 93 c7 00 	sts	0x00C7, r25
+ 90a:	80 93 c6 00 	sts	0x00C6, r24
+					y0  += sy;
+ 90e:	20 91 c8 00 	lds	r18, 0x00C8
+ 912:	33 27       	eor	r19, r19
+ 914:	27 fd       	sbrc	r18, 7
+ 916:	30 95       	com	r19
+ 918:	80 91 d2 00 	lds	r24, 0x00D2
+ 91c:	90 91 d3 00 	lds	r25, 0x00D3
+ 920:	82 0f       	add	r24, r18
+ 922:	93 1f       	adc	r25, r19
+ 924:	90 93 d3 00 	sts	0x00D3, r25
+ 928:	80 93 d2 00 	sts	0x00D2, r24
+					g_y += sy;		
+ 92c:	80 91 c0 00 	lds	r24, 0x00C0
+ 930:	90 91 c1 00 	lds	r25, 0x00C1
+ 934:	82 0f       	add	r24, r18
+ 936:	93 1f       	adc	r25, r19
+ 938:	90 93 c1 00 	sts	0x00C1, r25
+ 93c:	80 93 c0 00 	sts	0x00C0, r24
+					
+					stepper_do_steps( g_steppers[ Y_STEPPER ], 1 );
+ 940:	f8 01       	movw	r30, r16
+ 942:	80 81       	ld	r24, Z
+ 944:	91 81       	ldd	r25, Z+1	; 0x01
+ 946:	61 e0       	ldi	r22, 0x01	; 1
+ 948:	70 e0       	ldi	r23, 0x00	; 0
+ 94a:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+					
+					while( !stepper_is_ready( g_steppers[ Y_STEPPER ] )); // wait until stepper done steps
+ 94e:	f8 01       	movw	r30, r16
+ 950:	80 81       	ld	r24, Z
+ 952:	91 81       	ldd	r25, Z+1	; 0x01
+ 954:	0e 94 42 02 	call	0x484	; 0x484 <stepper_is_ready>
+ 958:	88 23       	and	r24, r24
+ 95a:	c9 f3       	breq	.-14     	; 0x94e <__stack+0xef>
+				}
+			}
+		}		
+		
+		// keyboard control - only for test		
+	    if( !busy )
+ 95c:	80 91 d6 00 	lds	r24, 0x00D6
+ 960:	88 23       	and	r24, r24
+ 962:	09 f0       	breq	.+2      	; 0x966 <__stack+0x107>
+ 964:	62 cf       	rjmp	.-316    	; 0x82a <main+0x94>
+	    {
+		    if( started )
+ 966:	dd 20       	and	r13, r13
+ 968:	61 f0       	breq	.+24     	; 0x982 <__stack+0x123>
+		    {	
+				strcpy( commandBuffer, "L 0 0 200 300\0L 200 300 400 0\0L 400 0 0 200\0L 0 200 400 200\0L 400 200 0 0\0" );
+ 96a:	f5 01       	movw	r30, r10
+ 96c:	d4 01       	movw	r26, r8
+ 96e:	8c 2d       	mov	r24, r12
+ 970:	0d 90       	ld	r0, X+
+ 972:	01 92       	st	Z+, r0
+ 974:	81 50       	subi	r24, 0x01	; 1
+ 976:	e1 f7       	brne	.-8      	; 0x970 <__stack+0x111>
+				exec_string( commandBuffer );
+ 978:	c5 01       	movw	r24, r10
+ 97a:	0e 94 44 03 	call	0x688	; 0x688 <exec_string>
+				lq_add_line( 200, 300, 400,   0 );				
+				lq_add_line( 400,   0,   0, 200 );
+				lq_add_line(   0, 200, 400, 200 );				
+				lq_add_line( 400, 200,   0,   0 );		*/	
+
+				started = 0x00;	
+ 97e:	d7 2c       	mov	r13, r7
+ 980:	08 c0       	rjmp	.+16     	; 0x992 <__stack+0x133>
+		    }
+			else
+			{
+				if( !( PINB & ( 1 << 4 ) ) )
+ 982:	b4 99       	sbic	0x16, 4	; 22
+ 984:	06 c0       	rjmp	.+12     	; 0x992 <__stack+0x133>
+				{
+					if( line_queue_count == 0 )
+ 986:	80 91 b7 00 	lds	r24, 0x00B7
+ 98a:	88 23       	and	r24, r24
+ 98c:	11 f4       	brne	.+4      	; 0x992 <__stack+0x133>
+						started = 0xFF;
+ 98e:	dd 24       	eor	r13, r13
+ 990:	da 94       	dec	r13
+				}			    
+		    }
+			
+			// keyboard control
+			if( !( PINB & ( 1 << 0 ) ) ) 
+ 992:	b0 99       	sbic	0x16, 0	; 22
+ 994:	0b c0       	rjmp	.+22     	; 0x9ac <__stack+0x14d>
+			{
+				stepper_set_direction( g_steppers[ X_STEPPER ], 1 );
+ 996:	88 81       	ld	r24, Y
+ 998:	99 81       	ldd	r25, Y+1	; 0x01
+ 99a:	61 e0       	ldi	r22, 0x01	; 1
+ 99c:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+				stepper_do_steps( g_steppers[ X_STEPPER ], 2 );
+ 9a0:	88 81       	ld	r24, Y
+ 9a2:	99 81       	ldd	r25, Y+1	; 0x01
+ 9a4:	62 e0       	ldi	r22, 0x02	; 2
+ 9a6:	70 e0       	ldi	r23, 0x00	; 0
+ 9a8:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+			}
+			if( !( PINB & ( 1 << 1 ) ) )
+ 9ac:	b1 99       	sbic	0x16, 1	; 22
+ 9ae:	0b c0       	rjmp	.+22     	; 0x9c6 <__stack+0x167>
+			{
+				stepper_set_direction( g_steppers[ X_STEPPER ], -1 );
+ 9b0:	88 81       	ld	r24, Y
+ 9b2:	99 81       	ldd	r25, Y+1	; 0x01
+ 9b4:	6f ef       	ldi	r22, 0xFF	; 255
+ 9b6:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+				stepper_do_steps( g_steppers[ X_STEPPER ], 2 );
+ 9ba:	88 81       	ld	r24, Y
+ 9bc:	99 81       	ldd	r25, Y+1	; 0x01
+ 9be:	62 e0       	ldi	r22, 0x02	; 2
+ 9c0:	70 e0       	ldi	r23, 0x00	; 0
+ 9c2:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+			}
+			if( !( PINB & ( 1 << 2 ) ) )
+ 9c6:	b2 99       	sbic	0x16, 2	; 22
+ 9c8:	0d c0       	rjmp	.+26     	; 0x9e4 <__stack+0x185>
+			{
+				stepper_set_direction( g_steppers[ Z_STEPPER ], 1 );
+ 9ca:	f7 01       	movw	r30, r14
+ 9cc:	80 81       	ld	r24, Z
+ 9ce:	91 81       	ldd	r25, Z+1	; 0x01
+ 9d0:	61 e0       	ldi	r22, 0x01	; 1
+ 9d2:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+				stepper_do_steps( g_steppers[ Z_STEPPER ], 2 );
+ 9d6:	f7 01       	movw	r30, r14
+ 9d8:	80 81       	ld	r24, Z
+ 9da:	91 81       	ldd	r25, Z+1	; 0x01
+ 9dc:	62 e0       	ldi	r22, 0x02	; 2
+ 9de:	70 e0       	ldi	r23, 0x00	; 0
+ 9e0:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+			}
+			if( !( PINB & ( 1 << 3 ) ) )
+ 9e4:	b3 99       	sbic	0x16, 3	; 22
+ 9e6:	21 cf       	rjmp	.-446    	; 0x82a <main+0x94>
+			{
+				stepper_set_direction( g_steppers[ Z_STEPPER ], -1 );
+ 9e8:	f7 01       	movw	r30, r14
+ 9ea:	80 81       	ld	r24, Z
+ 9ec:	91 81       	ldd	r25, Z+1	; 0x01
+ 9ee:	6f ef       	ldi	r22, 0xFF	; 255
+ 9f0:	0e 94 ad 01 	call	0x35a	; 0x35a <stepper_set_direction>
+				stepper_do_steps( g_steppers[ Z_STEPPER ], 2 );
+ 9f4:	f7 01       	movw	r30, r14
+ 9f6:	80 81       	ld	r24, Z
+ 9f8:	91 81       	ldd	r25, Z+1	; 0x01
+ 9fa:	62 e0       	ldi	r22, 0x02	; 2
+ 9fc:	70 e0       	ldi	r23, 0x00	; 0
+ 9fe:	0e 94 98 01 	call	0x330	; 0x330 <stepper_do_steps>
+ a02:	13 cf       	rjmp	.-474    	; 0x82a <main+0x94>
+
+00000a04 <atoi>:
+ a04:	fc 01       	movw	r30, r24
+ a06:	88 27       	eor	r24, r24
+ a08:	99 27       	eor	r25, r25
+ a0a:	e8 94       	clt
+ a0c:	21 91       	ld	r18, Z+
+ a0e:	20 32       	cpi	r18, 0x20	; 32
+ a10:	e9 f3       	breq	.-6      	; 0xa0c <atoi+0x8>
+ a12:	29 30       	cpi	r18, 0x09	; 9
+ a14:	10 f0       	brcs	.+4      	; 0xa1a <atoi+0x16>
+ a16:	2e 30       	cpi	r18, 0x0E	; 14
+ a18:	c8 f3       	brcs	.-14     	; 0xa0c <atoi+0x8>
+ a1a:	2b 32       	cpi	r18, 0x2B	; 43
+ a1c:	41 f0       	breq	.+16     	; 0xa2e <atoi+0x2a>
+ a1e:	2d 32       	cpi	r18, 0x2D	; 45
+ a20:	39 f4       	brne	.+14     	; 0xa30 <atoi+0x2c>
+ a22:	68 94       	set
+ a24:	04 c0       	rjmp	.+8      	; 0xa2e <atoi+0x2a>
+ a26:	0e 94 4c 05 	call	0xa98	; 0xa98 <__mulhi_const_10>
+ a2a:	82 0f       	add	r24, r18
+ a2c:	91 1d       	adc	r25, r1
+ a2e:	21 91       	ld	r18, Z+
+ a30:	20 53       	subi	r18, 0x30	; 48
+ a32:	2a 30       	cpi	r18, 0x0A	; 10
+ a34:	c0 f3       	brcs	.-16     	; 0xa26 <atoi+0x22>
+ a36:	1e f4       	brtc	.+6      	; 0xa3e <atoi+0x3a>
+ a38:	90 95       	com	r25
+ a3a:	81 95       	neg	r24
+ a3c:	9f 4f       	sbci	r25, 0xFF	; 255
+ a3e:	08 95       	ret
+
+00000a40 <strtok>:
+ a40:	4b e5       	ldi	r20, 0x5B	; 91
+ a42:	53 e0       	ldi	r21, 0x03	; 3
+ a44:	0e 94 25 05 	call	0xa4a	; 0xa4a <strtok_r>
+ a48:	08 95       	ret
+
+00000a4a <strtok_r>:
+ a4a:	fa 01       	movw	r30, r20
+ a4c:	a1 91       	ld	r26, Z+
+ a4e:	b0 81       	ld	r27, Z
+ a50:	00 97       	sbiw	r24, 0x00	; 0
+ a52:	19 f4       	brne	.+6      	; 0xa5a <strtok_r+0x10>
+ a54:	10 97       	sbiw	r26, 0x00	; 0
+ a56:	e1 f0       	breq	.+56     	; 0xa90 <strtok_r+0x46>
+ a58:	cd 01       	movw	r24, r26
+ a5a:	dc 01       	movw	r26, r24
+ a5c:	cd 01       	movw	r24, r26
+ a5e:	0d 90       	ld	r0, X+
+ a60:	00 20       	and	r0, r0
+ a62:	11 f4       	brne	.+4      	; 0xa68 <strtok_r+0x1e>
+ a64:	c0 01       	movw	r24, r0
+ a66:	13 c0       	rjmp	.+38     	; 0xa8e <strtok_r+0x44>
+ a68:	fb 01       	movw	r30, r22
+ a6a:	21 91       	ld	r18, Z+
+ a6c:	22 23       	and	r18, r18
+ a6e:	19 f0       	breq	.+6      	; 0xa76 <strtok_r+0x2c>
+ a70:	20 15       	cp	r18, r0
+ a72:	d9 f7       	brne	.-10     	; 0xa6a <strtok_r+0x20>
+ a74:	f3 cf       	rjmp	.-26     	; 0xa5c <strtok_r+0x12>
+ a76:	fb 01       	movw	r30, r22
+ a78:	21 91       	ld	r18, Z+
+ a7a:	20 15       	cp	r18, r0
+ a7c:	19 f4       	brne	.+6      	; 0xa84 <strtok_r+0x3a>
+ a7e:	1e 92       	st	-X, r1
+ a80:	11 96       	adiw	r26, 0x01	; 1
+ a82:	06 c0       	rjmp	.+12     	; 0xa90 <strtok_r+0x46>
+ a84:	22 23       	and	r18, r18
+ a86:	c1 f7       	brne	.-16     	; 0xa78 <strtok_r+0x2e>
+ a88:	0d 90       	ld	r0, X+
+ a8a:	00 20       	and	r0, r0
+ a8c:	a1 f7       	brne	.-24     	; 0xa76 <strtok_r+0x2c>
+ a8e:	d0 01       	movw	r26, r0
+ a90:	fa 01       	movw	r30, r20
+ a92:	a1 93       	st	Z+, r26
+ a94:	b0 83       	st	Z, r27
+ a96:	08 95       	ret
+
+00000a98 <__mulhi_const_10>:
+ a98:	7a e0       	ldi	r23, 0x0A	; 10
+ a9a:	97 9f       	mul	r25, r23
+ a9c:	90 2d       	mov	r25, r0
+ a9e:	87 9f       	mul	r24, r23
+ aa0:	80 2d       	mov	r24, r0
+ aa2:	91 0d       	add	r25, r1
+ aa4:	11 24       	eor	r1, r1
+ aa6:	08 95       	ret
+
+00000aa8 <_exit>:
+ aa8:	f8 94       	cli
+
+00000aaa <__stop_program>:
+ aaa:	ff cf       	rjmp	.-2      	; 0xaaa <__stop_program>
