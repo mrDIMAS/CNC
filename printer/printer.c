@@ -38,9 +38,9 @@
 volatile const uint8_t g_dir_bits[ 2 ][ 4 ] = { { 0x01, 0x02, 0x04, 0x08 }, 
 												{ 0x08, 0x04, 0x02, 0x01 } };
 
-volatile uint8_t receiveBuffer[ RECEIVE_BUFFER_SIZE ]     = { 0 };
-volatile uint8_t transmitBuffer[ TRANSMIT_BUFFER_SIZE ]   = { 0 };
-uint8_t commandBuffer[ RECEIVE_BUFFER_SIZE ]   = { 0 };
+volatile int8_t receiveBuffer[ RECEIVE_BUFFER_SIZE ]     = { 0 };
+volatile int8_t transmitBuffer[ TRANSMIT_BUFFER_SIZE ]   = { 0 };
+int8_t commandBuffer[ RECEIVE_BUFFER_SIZE ]   = { 0 };
 	
 volatile uint8_t receiveTail = 0;
 volatile uint8_t receiveHead = 0;
@@ -88,7 +88,7 @@ typedef struct
 
 volatile stepper_t * g_steppers[ STEPPERS_COUNT ] = { 0, 0, 0 };
 
-void USARTInitialize()
+void serial_init()
 {
 	UCSRA = 0;
 	
@@ -109,11 +109,11 @@ void USARTInitialize()
 }
 
 // Получение принятых данных из буфера
-uint8_t serial_get( )
+int8_t serial_get( )
 {
 	ATOMIC_BLOCK( ATOMIC_FORCEON )
 	{
-		uint8_t data = 0;
+		int8_t data = 0;
 		
 		if( receiveSize > 0 )
 		{
@@ -132,7 +132,7 @@ uint8_t serial_get( )
 }
 
 // Отправка данных
-void serial_send( uint8_t data )
+void serial_send( int8_t data )
 {
 	ATOMIC_BLOCK( ATOMIC_FORCEON )
 	{
@@ -159,12 +159,16 @@ ISR( USART__RXC_vect )
 	{
 		receiveBuffer[ receiveTail ] = UDR;
 
+		//serial_send( receiveBuffer[ receiveTail ] );//echo
+		
 		receiveTail++;
 		
 		if( receiveTail == RECEIVE_BUFFER_SIZE )
 		receiveTail = 0;
 		
 		receiveSize++;
+		
+		
 	}
 }
 
@@ -325,20 +329,71 @@ void line( int16_t _x0, int16_t _y0, int16_t _x1, int16_t _y1 )
 }
 
 char * receive_buffer_get_string( )
-{
-	char * null_byte = 0;
-	 
-	// check - is the buffer contain string? String must contain 'zero byte' at the end
+{	
+	
+	// clear command buffer
 	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
 	{
-		if( receiveBuffer[ i ] == 0 )
-		{		
-			null_byte = &receiveBuffer[ i ];
+		commandBuffer[ i ] = 0;
+	}
+		
+		
+	// copy command from serial to the command buffer
+	uint8_t n = 0;	
+	
+	while( 1 ) // until command full received
+	{
+		commandBuffer[ n ] = serial_get( );
+		
+		if( commandBuffer[ n ] != 0 )
+		{
+			if( commandBuffer[ n ] == 'e' )
+			{
+				return &commandBuffer[ 0 ];
+			}
+						
+			serial_send( commandBuffer[ n ] );
+			
+			n++;
 		}			
-	}	
+	}
+	
+	return 0;	
+	/*
+	uint8_t end_of_string = 0;
+	 
+	// check - is the buffer contain string? String must contain 'e' at the end
+	if( receiveHead < receiveTail )
+	{
+		for( uint8_t i = receiveHead; i < RECEIVE_BUFFER_SIZE; i++ )
+		{
+			if( receiveBuffer[ i ] == 'e' )
+			{
+				end_of_string = i;
+			}
+		}
+	}
+	else
+	{
+		for( uint8_t i = receiveHead; i < RECEIVE_BUFFER_SIZE; i++ )
+		{
+			if( receiveBuffer[ i ] == 'e' )
+			{
+				end_of_string = i;
+			}
+		}
+		
+		for( uint8_t i = 0; i < receiveTail; i++ )
+		{
+			if( receiveBuffer[ i ] == 'e' )
+			{
+				end_of_string = i;
+			}
+		}				
+	}		
 	
 	// we've got string?
-	if( !null_byte )	
+	if( !end_of_string )	
 		return 0;
 	
 	// clear command buffer
@@ -354,9 +409,23 @@ char * receive_buffer_get_string( )
 	{
 		commandBuffer[ n ] = serial_get( );
 		
-		if( commandBuffer[ n ] == 0 )
+
+		
+		if( commandBuffer[ n ] == 0 || n >= RECEIVE_BUFFER_SIZE )
 			break;
+			
+			if( commandBuffer[ n ] == 'e' )
+			return &commandBuffer[ 0 ];
+			
+			serial_send( commandBuffer[ n ] );
+					
+		n++;
 	}
+	
+	if( n > 0 )
+		return &commandBuffer[ 0 ];
+	else
+		return 0 ;*/
 }
 
 /* 
@@ -382,7 +451,10 @@ void exec_string( char * str )
 		return;
 		
 	while( !commandDone ) { }; // wait until last command becomes done
-			
+	
+	for( uint8_t i = 0 ; i < 127; i++ )		
+		serial_send( str[ i ] );
+		
 	char command		= 0;
 	const char * delim	= " ";
 	char * token		= 0;
@@ -515,6 +587,7 @@ int main(void)
 	DDRB  = 0x00;
 	
 	init_stepper_control_timer();
+	serial_init();
 	
 	sei();
 		
@@ -531,8 +604,12 @@ int main(void)
 	
     while( 1 )
     {
+		exec_string( receive_buffer_get_string() );
 	    if( commandDone )
 	    {
+			
+			
+			/*
 		    if( started )
 		    {	
 				strcpy( commandBuffer, "U 200" );
@@ -559,7 +636,7 @@ int main(void)
 					if( commandDone == 1 )
 						started = 0xFF;
 				}			    
-		    }
+		    }*/
 			
 			// keyboard control
 			if( !( PINB & ( 1 << 0 ) ) ) 
