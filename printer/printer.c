@@ -166,9 +166,7 @@ ISR( USART__RXC_vect )
 		if( receiveTail == RECEIVE_BUFFER_SIZE )
 		receiveTail = 0;
 		
-		receiveSize++;
-		
-		
+		receiveSize++;		
 	}
 }
 
@@ -329,14 +327,12 @@ void line( int16_t _x0, int16_t _y0, int16_t _x1, int16_t _y1 )
 }
 
 char * receive_buffer_get_string( )
-{	
-	
+{		
 	// clear command buffer
 	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
 	{
 		commandBuffer[ i ] = 0;
-	}
-		
+	}		
 		
 	// copy command from serial to the command buffer
 	uint8_t n = 0;	
@@ -347,7 +343,7 @@ char * receive_buffer_get_string( )
 		
 		if( commandBuffer[ n ] != 0 )
 		{
-			if( commandBuffer[ n ] == 'e' )
+			if( commandBuffer[ n ] == ';' )
 			{
 				return &commandBuffer[ 0 ];
 			}
@@ -359,73 +355,6 @@ char * receive_buffer_get_string( )
 	}
 	
 	return 0;	
-	/*
-	uint8_t end_of_string = 0;
-	 
-	// check - is the buffer contain string? String must contain 'e' at the end
-	if( receiveHead < receiveTail )
-	{
-		for( uint8_t i = receiveHead; i < RECEIVE_BUFFER_SIZE; i++ )
-		{
-			if( receiveBuffer[ i ] == 'e' )
-			{
-				end_of_string = i;
-			}
-		}
-	}
-	else
-	{
-		for( uint8_t i = receiveHead; i < RECEIVE_BUFFER_SIZE; i++ )
-		{
-			if( receiveBuffer[ i ] == 'e' )
-			{
-				end_of_string = i;
-			}
-		}
-		
-		for( uint8_t i = 0; i < receiveTail; i++ )
-		{
-			if( receiveBuffer[ i ] == 'e' )
-			{
-				end_of_string = i;
-			}
-		}				
-	}		
-	
-	// we've got string?
-	if( !end_of_string )	
-		return 0;
-	
-	// clear command buffer
-	for( uint8_t i = 0; i < RECEIVE_BUFFER_SIZE; i++ )
-	{
-		commandBuffer[ i ] = 0;
-	}	
-	
-	// copy command from serial to the command buffer
-	uint8_t n = 0;
-	
-	while( 1 )
-	{
-		commandBuffer[ n ] = serial_get( );
-		
-
-		
-		if( commandBuffer[ n ] == 0 || n >= RECEIVE_BUFFER_SIZE )
-			break;
-			
-			if( commandBuffer[ n ] == 'e' )
-			return &commandBuffer[ 0 ];
-			
-			serial_send( commandBuffer[ n ] );
-					
-		n++;
-	}
-	
-	if( n > 0 )
-		return &commandBuffer[ 0 ];
-	else
-		return 0 ;*/
 }
 
 /* 
@@ -605,39 +534,9 @@ int main(void)
     while( 1 )
     {
 		exec_string( receive_buffer_get_string() );
+		
 	    if( commandDone )
 	    {
-			
-			
-			/*
-		    if( started )
-		    {	
-				strcpy( commandBuffer, "U 200" );
-				exec_string( commandBuffer );				
-				strcpy( commandBuffer, "L 0 0 200 300\0" );
-				exec_string( commandBuffer );
-				strcpy( commandBuffer, "L 200 300 400 0\0" );
-				exec_string( commandBuffer );
-				strcpy( commandBuffer, "L 400 0 0 200\0" );
-				exec_string( commandBuffer );
-				strcpy( commandBuffer, "L 0 200 400 200\0" );
-				exec_string( commandBuffer );	
-				strcpy( commandBuffer, "L 400 200 0 0\0" );
-				exec_string( commandBuffer );
-				strcpy( commandBuffer, "D 200" );
-				exec_string( commandBuffer );											
-
-				started = 0x00;	
-		    }
-			else
-			{
-				if( !( PINB & ( 1 << 4 ) ) )
-				{
-					if( commandDone == 1 )
-						started = 0xFF;
-				}			    
-		    }*/
-			
 			// keyboard control
 			if( !( PINB & ( 1 << 0 ) ) ) 
 			{

@@ -536,7 +536,7 @@ Disassembly of section .text:
  44e:	80 83       	st	Z, r24
  450:	88 23       	and	r24, r24
  452:	b9 f3       	breq	.-18     	; 0x442 <receive_buffer_get_string+0x10>
- 454:	85 36       	cpi	r24, 0x65	; 101
+ 454:	8b 33       	cpi	r24, 0x3B	; 59
  456:	21 f4       	brne	.+8      	; 0x460 <receive_buffer_get_string+0x2e>
  458:	81 e9       	ldi	r24, 0x91	; 145
  45a:	90 e0       	ldi	r25, 0x00	; 0
