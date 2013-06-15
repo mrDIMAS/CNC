@@ -21,22 +21,33 @@
 #define S_MAX_LOW_BIT  0b00001000
 #define S_MAX_HIGH_BIT 0b10000000
 
-#define STEPPER_TIMER_1024_PRESCALER (( 1 << CS00 ) | ( 1 << CS02 ))
-#define STEPPER_TIMER_256_PRESCALER  (( 1 << CS02 ))
-#define STEPPER_TIMER_64_PRESCALER   (( 1 << CS00 ) | ( 1 << CS01 ))
-#define STEPPER_TIMER_8_PRESCALER    (( 1 << CS01 ))
-#define STEPPER_TIMER_NO_PRESCALER    ( 0 )
+#define TIMER_1024_PRESCALER (( 1 << CS00 ) | ( 1 << CS02 ))
+#define TIMER_256_PRESCALER  (( 1 << CS02 ))
+#define TIMER_64_PRESCALER   (( 1 << CS00 ) | ( 1 << CS01 ))
+#define TIMER_8_PRESCALER    (( 1 << CS01 ))
+#define TIMER_NO_PRESCALER    ( 0 )
 
 #define F_CPU 8000000UL
 
-#define BAUDRATE ( 9600 )
+#define BAUDRATE ( 19200 )
 #define BAUD_PRESCALE ( ( F_CPU / 16 / BAUDRATE ) - 1)
 
 #define RECEIVE_BUFFER_SIZE ( 255 )
-#define TRANSMIT_BUFFER_SIZE ( 128 )
+#define TRANSMIT_BUFFER_SIZE ( 255 )
 
+/*
 volatile const uint8_t g_dir_bits[ 2 ][ 4 ] = { { 0x01, 0x02, 0x04, 0x08 }, 
-												{ 0x08, 0x04, 0x02, 0x01 } };
+												{ 0x08, 0x04, 0x02, 0x01 } };*/
+													
+volatile const uint8_t g_dir_bits[ 2 ][ 4 ] = { { 0b00000011, 0b00000110, 0b00001100, 0b00001001 },
+												{ 0b00001001, 0b00001100, 0b00000110, 0b00000011 } };												
+													/*
+													0b00000011 
+													0b00000110
+													0b00001100
+													0b00001001
+													
+													*/
 
 volatile int8_t receiveBuffer[ RECEIVE_BUFFER_SIZE ]     = { 0 };
 volatile int8_t transmitBuffer[ TRANSMIT_BUFFER_SIZE ]   = { 0 };
@@ -294,7 +305,49 @@ void stepper_update( stepper_t * stepper )
 void init_stepper_control_timer() 
 {
 	TIMSK |= ( 1 << TOIE0 );
-	TCCR0 |= STEPPER_TIMER_8_PRESCALER;
+	TCCR0 |= TIMER_8_PRESCALER;
+}
+
+void init_messaging_timer( )
+{
+	TIMSK |= ( 1 << TOIE2 );
+	TCCR2 |= TIMER_256_PRESCALER;	
+}
+
+volatile uint8_t timer_2_timer = 0;
+#define msg_buf_size 64			
+volatile signed char msg[ msg_buf_size ];
+
+ISR( TIMER2_OVF_vect )
+{
+	ATOMIC_BLOCK( ATOMIC_RESTORESTATE )
+	{
+		if( timer_2_timer > 4 ) // n * TCCR2( prescaler )
+		{
+
+	
+			// clear
+			for( uint8_t i = 0; i < msg_buf_size; i++ )
+			{
+				msg[ i ] = 0;
+			}
+		
+			sprintf( msg, "S %d; X %d; Y %d;\n\r", receiveSize, g_x, g_y );
+	
+			for( uint8_t i = 0; i < msg_buf_size; i++ )
+			{	
+				if( msg[ i ] == 0 )
+				break;		
+				serial_send( msg[ i ] );
+				
+							
+			}	
+			
+			timer_2_timer = 0;
+		}				
+		
+		timer_2_timer++;
+	}			
 }
 
 volatile stepper_t g_x_stepper;
@@ -347,9 +400,7 @@ char * receive_buffer_get_string( )
 			{
 				return &commandBuffer[ 0 ];
 			}
-						
-			serial_send( commandBuffer[ n ] );
-			
+					
 			n++;
 		}			
 	}
@@ -380,10 +431,15 @@ void exec_string( char * str )
 		return;
 		
 	while( !commandDone ) { }; // wait until last command becomes done
-	
+	/*
 	for( uint8_t i = 0 ; i < 127; i++ )		
+	{
 		serial_send( str[ i ] );
 		
+		if( str[ i ] == ';' )
+			break;
+	}		
+		*/
 	char command		= 0;
 	const char * delim	= " ";
 	char * token		= 0;
@@ -417,7 +473,6 @@ void exec_string( char * str )
 		// add line to queue
 		case 'L':
 		{
-			//lq_add_line( args[ 0 ], args[ 1 ], args[ 2 ], args[ 3 ] );
 			line( args[ 0 ], args[ 1 ], args[ 2 ], args[ 3 ] );
 			
 			drawLineMode = 1;
@@ -492,12 +547,11 @@ ISR( TIMER0_OVF_vect )
 		}
 		else
 		{
-			for( uint8_t i = 0; i < STEPPERS_COUNT; i++ )
-			{
-				if( g_steppers[ i ] )
-				stepper_update( g_steppers[ i ] );
-			}
+			stepper_stop( g_steppers[ Y_STEPPER ] );
+			stepper_stop( g_steppers[ X_STEPPER ] );
 		}
+		
+		stepper_update( g_steppers[ Z_STEPPER ] );
 		
 		timer = 0;
 	}
@@ -516,6 +570,7 @@ int main(void)
 	DDRB  = 0x00;
 	
 	init_stepper_control_timer();
+	init_messaging_timer();
 	serial_init();
 	
 	sei();

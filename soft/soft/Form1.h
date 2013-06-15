@@ -18,6 +18,8 @@ namespace soft {
 	using namespace System::Drawing;
 	using namespace System::IO::Ports;
 
+	 using namespace System;
+	 using namespace System ::IO;
 	/// <summary>
 	/// Summary for Form1
 	/// </summary>
@@ -43,14 +45,20 @@ namespace soft {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  button1;
+
 
 	protected: 
 
 	private: System::IO::Ports::SerialPort^  serialPort;
-	private: System::Windows::Forms::TextBox^  outData;
-	private: System::Windows::Forms::TextBox^  textBox1;
+
+
 	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::ListBox^  lcodelist;
+	private: System::Windows::Forms::Button^  loadFileButton;
+	private: System::Windows::Forms::OpenFileDialog^  openFile;
+	private: System::Windows::Forms::Label^  info;
+	private: System::Windows::Forms::Label^  size;
+	private: System::Windows::Forms::Timer^  sendTimer;
 
 	private: System::ComponentModel::IContainer^  components;
 
@@ -68,55 +76,85 @@ namespace soft {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->serialPort = (gcnew System::IO::Ports::SerialPort(this->components));
-			this->outData = (gcnew System::Windows::Forms::TextBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->lcodelist = (gcnew System::Windows::Forms::ListBox());
+			this->loadFileButton = (gcnew System::Windows::Forms::Button());
+			this->openFile = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->info = (gcnew System::Windows::Forms::Label());
+			this->size = (gcnew System::Windows::Forms::Label());
+			this->sendTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
-			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(47, 212);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(195, 64);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Send";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
 			// serialPort
 			// 
+			this->serialPort->BaudRate = 19200;
 			this->serialPort->PortName = L"COM2";
-			// 
-			// outData
-			// 
-			this->outData->Location = System::Drawing::Point(51, 70);
-			this->outData->Name = L"outData";
-			this->outData->Size = System::Drawing::Size(190, 20);
-			this->outData->TabIndex = 1;
-			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(56, 117);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(185, 20);
-			this->textBox1->TabIndex = 2;
+			this->serialPort->ReadBufferSize = 256;
+			this->serialPort->ReadTimeout = 16;
+			this->serialPort->WriteBufferSize = 256;
+			this->serialPort->WriteTimeout = 16;
 			// 
 			// timer1
 			// 
 			this->timer1->Enabled = true;
-			this->timer1->Interval = 10;
+			this->timer1->Interval = 1;
 			this->timer1->Tick += gcnew System::EventHandler(this, &Form1::timer1_Tick);
+			// 
+			// lcodelist
+			// 
+			this->lcodelist->FormattingEnabled = true;
+			this->lcodelist->Location = System::Drawing::Point(12, 12);
+			this->lcodelist->Name = L"lcodelist";
+			this->lcodelist->Size = System::Drawing::Size(273, 498);
+			this->lcodelist->TabIndex = 0;
+			// 
+			// loadFileButton
+			// 
+			this->loadFileButton->Location = System::Drawing::Point(291, 12);
+			this->loadFileButton->Name = L"loadFileButton";
+			this->loadFileButton->Size = System::Drawing::Size(128, 34);
+			this->loadFileButton->TabIndex = 1;
+			this->loadFileButton->Text = L"Load lcode file";
+			this->loadFileButton->UseVisualStyleBackColor = true;
+			this->loadFileButton->Click += gcnew System::EventHandler(this, &Form1::loadFileButton_Click);
+			// 
+			// openFile
+			// 
+			this->openFile->FileName = L"openFile";
+			// 
+			// info
+			// 
+			this->info->AutoSize = true;
+			this->info->Location = System::Drawing::Point(301, 84);
+			this->info->Name = L"info";
+			this->info->Size = System::Drawing::Size(15, 13);
+			this->info->TabIndex = 2;
+			this->info->Text = L"l0";
+			// 
+			// size
+			// 
+			this->size->AutoSize = true;
+			this->size->Location = System::Drawing::Point(311, 222);
+			this->size->Name = L"size";
+			this->size->Size = System::Drawing::Size(35, 13);
+			this->size->TabIndex = 3;
+			this->size->Text = L"label1";
+			// 
+			// sendTimer
+			// 
+			this->sendTimer->Interval = 700;
+			this->sendTimer->Tick += gcnew System::EventHandler(this, &Form1::sendTimer_Tick);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(288, 307);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->outData);
-			this->Controls->Add(this->button1);
+			this->ClientSize = System::Drawing::Size(438, 527);
+			this->Controls->Add(this->size);
+			this->Controls->Add(this->info);
+			this->Controls->Add(this->loadFileButton);
+			this->Controls->Add(this->lcodelist);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
@@ -125,36 +163,109 @@ namespace soft {
 
 		}
 #pragma endregion
+		
 		String ^received;
+		int size_in;
 	private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) 
 			 {
-				 serialPort->ReadTimeout = 1;
 				serialPort->Open();
 				serialPort->DataReceived += gcnew System::IO::Ports::SerialDataReceivedEventHandler(this, &Form1::DataReceivedHandler);
-
-			 }
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 //String ^end = "\0";
-
-				// outData->AppendText( end );
-
-				 System::String ^cmd = (outData->Text);
-				 
-				 serialPort->WriteLine( cmd );
-			 }
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
-				
+				size_in = 0;
+				received = " ";
 			 }
 private: System::Void DataReceivedHandler( Object^ sender, SerialDataReceivedEventArgs^ e)
 		 {
-			char byte = serialPort->ReadChar( );
-
-			if( byte != 0 )
-				received += byte;
+			SerialPort^ sp = (SerialPort^)sender;
+			received += sp->ReadExisting();
 		 }
-private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-			  textBox1->Text += received;
+		 
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) 
+		 {
+			try 
+			{			
+				 if( received->Length == 0 )
+					 return;
+
+				array<wchar_t> ^delim = gcnew array<wchar_t>( 2 );
+
+				delim[ 0 ] = Convert::ToChar( " " );
+				delim[ 1 ] = Convert::ToChar( ";" );
+
+				array<String^> ^arr = received->Split( delim );
+
+				bool readarg = 0;
+
+				for each ( String^ str in arr )
+				{
+					if( readarg )
+					{
+						size->Text = str;
+
+						size_in = Convert::ToInt32( str );
+
+						break;
+					}
+					else
+					{
+						if( str->Length )
+						{
+							wchar_t cmd= str[ 0 ];
+
+							if( cmd == L'S' )
+							{
+								readarg = 1; 
+							}
+						}
+					}
+				}
+
+				info->Text = received;
+				received = "";
+			} 
+			catch( NullReferenceException ^ )
+			{
+				received = "";
+			}
+				
+		 }
+
+private: System::Void loadFileButton_Click(System::Object^  sender, System::EventArgs^  e) 
+		 {
+			 System::Windows::Forms::DialogResult result = openFile->ShowDialog();
+
+			 if( result == System::Windows::Forms::DialogResult::OK )
+			 {
+				StreamReader ^ sr = gcnew StreamReader( openFile->FileName );
+
+				String ^ line;
+
+				while( (line = sr->ReadLine()) ) 
+				{
+					lcodelist->Items->Add( line );
+				}			 				
+			 };	
+
+			 sendTimer->Enabled = true;
+		 }
+private: System::Void sendTimer_Tick(System::Object^  sender, System::EventArgs^  e) 
+		 {
+			 static bool stop = 0;
+			 static int cmdNum = 0;
+
+			 if( !stop )
+			 {
+				 if( size_in < 64 )
+				 {
+					 if( lcodelist->Items->Count != 0 )
+					 {
+						 String ^ out = (Convert::ToString( lcodelist->Items[ 0 ] ));
+
+						 serialPort->Write( out);
+
+						lcodelist->Items->RemoveAt( 0 );
+					 }
+				 }
+			 }
 		 }
 };
 }
